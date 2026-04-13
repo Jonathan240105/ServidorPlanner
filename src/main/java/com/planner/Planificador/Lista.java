@@ -15,6 +15,11 @@ public class Lista {
 	private WorkSpace workspace;
 
 	// Constructor
+
+	public Lista() {
+		super();
+	}
+
 	public Lista(Integer id_lista, String nombre_lista, Integer posicion, WorkSpace workspace) {
 		super();
 		this.id_lista = id_lista;

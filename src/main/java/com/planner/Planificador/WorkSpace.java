@@ -19,6 +19,10 @@ public class WorkSpace {
 	private LocalDateTime fecha_creacion;
 
 	// Constructor
+	public WorkSpace() {
+		super();
+	}
+
 	public WorkSpace(Integer id_workspace, String nombre, String descripcion, Usuario usuarioAsignado,
 			LocalDateTime fecha_creacion) {
 		super();

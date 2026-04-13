@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Usuario")
 public class Usuario {
-	
-	//Atributos
+
+	// Atributos
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_usuario;
@@ -18,7 +18,11 @@ public class Usuario {
 	private String foto_usuario;
 	private LocalDateTime fecha_creacion;
 
-	//Constructor
+	// Constructor
+	public Usuario() {
+		super();
+	}
+
 	public Usuario(Integer id_usuario, String nombre_usuario, String email, String contra, String foto_usuario,
 			LocalDateTime fecha_creacion) {
 		super();
@@ -30,7 +34,7 @@ public class Usuario {
 		this.fecha_creacion = fecha_creacion;
 	}
 
-	//Getters y Setters
+	// Getters y Setters
 	public Integer getId_usuario() {
 		return id_usuario;
 	}
@@ -79,7 +83,7 @@ public class Usuario {
 		this.fecha_creacion = fecha_creacion;
 	}
 
-	//Tostring
+	// Tostring
 	@Override
 	public String toString() {
 		return "Usuario [id_usuario=" + id_usuario + ", nombre_usuario=" + nombre_usuario + ", email=" + email

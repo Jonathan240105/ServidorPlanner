@@ -8,6 +8,7 @@ public class Comentario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_comentario;
+
 	private String contenido;
 	@Column(insertable = false, updatable = false)
 	private LocalDateTime fecha_creacion;
@@ -19,6 +20,11 @@ public class Comentario {
 	private Usuario usuarioCreador;
 
 	// Constructor
+
+	public Comentario() {
+		super();
+	}
+
 	public Comentario(Integer id_comentario, String contenido, LocalDateTime fecha_creacion, Lista lista,
 			Usuario usuarioCreador) {
 		super();
