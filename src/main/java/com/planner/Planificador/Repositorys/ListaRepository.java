@@ -1,0 +1,13 @@
+package com.planner.Planificador.Repositorys;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.planner.Planificador.ClasesEntidades.Lista;
+
+public interface ListaRepository extends JpaRepository<Lista, Integer> {
+
+	List<Lista> findByWorkSpace_idWorkspace(Integer idWorkSpace);
+
+}
