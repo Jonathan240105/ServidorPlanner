@@ -1,5 +1,9 @@
 package com.planner.Planificador.Repositorys;
 
-public interface UsuarioRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.planner.Planificador.ClasesEntidades.Usuario;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
 }
