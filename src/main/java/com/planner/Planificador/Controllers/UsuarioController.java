@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.planner.Planificador.Dtos.InicioSesionDto;
+import com.planner.Planificador.Dtos.InicioSesionSolicitud;
 import com.planner.Planificador.Dtos.UsuarioDto;
 import com.planner.Planificador.Services.UsuarioService;
 
@@ -38,7 +38,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/iniciarSesion")
-	public ResponseEntity<?> iniciarSesionEmailContra(@RequestBody InicioSesionDto solicitudInicioSesion) {
+	public ResponseEntity<?> iniciarSesionEmailContra(@RequestBody InicioSesionSolicitud solicitudInicioSesion) {
 		try {
 			UsuarioDto usuario = usuarioService.iniciarSesion(solicitudInicioSesion.getEmail(),
 					solicitudInicioSesion.getContra());

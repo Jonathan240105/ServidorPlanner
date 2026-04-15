@@ -1,11 +1,11 @@
 package com.planner.Planificador.Dtos;
 
-public class InicioSesionDto {
+public class InicioSesionSolicitud {
 	private String email;
 	private String contra;
 
 	// Constructor
-	public InicioSesionDto(String email, String contra) {
+	public InicioSesionSolicitud(String email, String contra) {
 		super();
 		this.email = email;
 		this.contra = contra;
