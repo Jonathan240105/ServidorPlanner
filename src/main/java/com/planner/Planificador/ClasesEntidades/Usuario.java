@@ -1,4 +1,4 @@
-package com.planner.Planificador.ClasesDto;
+package com.planner.Planificador.ClasesEntidades;
 
 import java.time.LocalDateTime;
 
