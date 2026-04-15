@@ -1,4 +1,4 @@
-package com.planner.Planificador;
+package com.planner.Planificador.ClasesEntidades;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,8 @@ public class Usuario {
 	// Atributos
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_usuario;
+	@Column(name = "id_usuario")
+	private Integer idUsuario;
 	private String nombre_usuario;
 	private String email;
 	private String contra;
@@ -26,7 +27,7 @@ public class Usuario {
 	public Usuario(Integer id_usuario, String nombre_usuario, String email, String contra, String foto_usuario,
 			LocalDateTime fecha_creacion) {
 		super();
-		this.id_usuario = id_usuario;
+		this.idUsuario = id_usuario;
 		this.nombre_usuario = nombre_usuario;
 		this.email = email;
 		this.contra = contra;
@@ -36,11 +37,11 @@ public class Usuario {
 
 	// Getters y Setters
 	public Integer getId_usuario() {
-		return id_usuario;
+		return idUsuario;
 	}
 
 	public void setId_usuario(Integer id_usuario) {
-		this.id_usuario = id_usuario;
+		this.idUsuario = id_usuario;
 	}
 
 	public String getNombre_usuario() {
@@ -86,7 +87,7 @@ public class Usuario {
 	// Tostring
 	@Override
 	public String toString() {
-		return "Usuario [id_usuario=" + id_usuario + ", nombre_usuario=" + nombre_usuario + ", email=" + email
+		return "Usuario [id_usuario=" + idUsuario + ", nombre_usuario=" + nombre_usuario + ", email=" + email
 				+ ", contra=" + contra + ", foto_usuario=" + foto_usuario + ", fecha_creacion=" + fecha_creacion + "]";
 	}
 }

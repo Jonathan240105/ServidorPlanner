@@ -1,4 +1,4 @@
-package com.planner.Planificador;
+package com.planner.Planificador.ClasesEntidades;
 
 import jakarta.persistence.*;
 

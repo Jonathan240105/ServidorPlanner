@@ -1,4 +1,4 @@
-package com.planner.Planificador;
+package com.planner.Planificador.ClasesEntidades;
 
 import java.time.LocalDateTime;
 
@@ -23,10 +23,9 @@ public class WorkSpace {
 		super();
 	}
 
-	public WorkSpace(Integer id_workspace, String nombre, String descripcion, Usuario usuarioAsignado,
+	public WorkSpace(String nombre, String descripcion, Usuario usuarioAsignado,
 			LocalDateTime fecha_creacion) {
 		super();
-		this.id_workspace = id_workspace;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.usuarioAsignado = usuarioAsignado;
