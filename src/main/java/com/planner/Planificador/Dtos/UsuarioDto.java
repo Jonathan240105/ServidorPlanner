@@ -4,6 +4,7 @@ public class UsuarioDto {
 	private Integer id;
 	private String nombre;
 	private String email;
+	private String contra;
 	private String foto;
 
 	// Constructores
@@ -17,6 +18,12 @@ public class UsuarioDto {
 		this.nombre = nombre;
 		this.email = email;
 		this.foto = foto;
+	}
+
+	public UsuarioDto(String email, String contra) {
+		super();
+		this.email = email;
+		this.contra = contra;
 	}
 
 	// Getters y Setters

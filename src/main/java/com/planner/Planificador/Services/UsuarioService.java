@@ -1,6 +1,7 @@
 package com.planner.Planificador.Services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +31,16 @@ public class UsuarioService {
 				usuario.getFoto_usuario());
 	}
 
+	public UsuarioDto iniciarSesion(String email, String contra) {
+
+		Usuario usuario = usuarioRepo.findByEmail(email)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+		if (!usuario.getContra().equals(contra)) {
+			throw new RuntimeException("Contraseña incorrecta");
+		}
+
+		return new UsuarioDto(usuario.getId_usuario(), usuario.getNombre_usuario(), usuario.getEmail(),
+				usuario.getFoto_usuario());
+	}
 }
