@@ -42,10 +42,10 @@ public class ListaServices {
 	}
 
 
-	public void eliminarLista(Integer ig) {
-		if (!listaRepo.existsById(ig)) {
+	public void eliminarLista(Integer id) {
+		if (!listaRepo.existsById(id)) {
 			throw new RuntimeException("Lista no encontrada");
 		}
-		listaRepo.deleteById(ig);
+		listaRepo.deleteById(id);
 	}
 }
