@@ -7,12 +7,12 @@ import jakarta.persistence.*;
 public class Lista {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_lista;
+	private Integer idLista;
 	private String nombre_lista;
-	private Integer posicion;
+	private int posicion;
 	@ManyToOne
 	@JoinColumn(name = "id_workspace")
-	private WorkSpace workspace;
+	private WorkSpace workSpace;
 
 	// Constructor
 
@@ -20,21 +20,20 @@ public class Lista {
 		super();
 	}
 
-	public Lista(Integer id_lista, String nombre_lista, Integer posicion, WorkSpace workspace) {
+	public Lista( String nombre_lista, int posicion, WorkSpace workspace) {
 		super();
-		this.id_lista = id_lista;
 		this.nombre_lista = nombre_lista;
 		this.posicion = posicion;
-		this.workspace = workspace;
+		this.workSpace = workspace;
 	}
 
 	// Getters y Setters
-	public Integer getId_lista() {
-		return id_lista;
+	public Integer getIdLista() {
+		return idLista;
 	}
 
-	public void setId_lista(Integer id_lista) {
-		this.id_lista = id_lista;
+	public void setIdLista(Integer id_lista) {
+		this.idLista = id_lista;
 	}
 
 	public String getNombre_lista() {
@@ -45,27 +44,27 @@ public class Lista {
 		this.nombre_lista = nombre_lista;
 	}
 
-	public Integer getPosicion() {
+	public int getPosicion() {
 		return posicion;
 	}
 
-	public void setPosicion(Integer posicion) {
+	public void setPosicion(int posicion) {
 		this.posicion = posicion;
 	}
 
 	public WorkSpace getWorkspace() {
-		return workspace;
+		return workSpace;
 	}
 
 	public void setWorkspace(WorkSpace workspace) {
-		this.workspace = workspace;
+		this.workSpace = workspace;
 	}
 
 	// Tostring
 	@Override
 	public String toString() {
-		return "Lista [id_lista=" + id_lista + ", nombre_lista=" + nombre_lista + ", posicion=" + posicion
-				+ ", workspace=" + workspace + "]";
+		return "Lista [id_lista=" + idLista + ", nombre_lista=" + nombre_lista + ", posicion=" + posicion
+				+ ", workspace=" + workSpace + "]";
 	}
 
 }
