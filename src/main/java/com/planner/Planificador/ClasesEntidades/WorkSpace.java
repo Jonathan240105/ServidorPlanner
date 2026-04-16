@@ -9,7 +9,8 @@ import jakarta.persistence.*;
 public class WorkSpace {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_workspace;
+	@Column(name="id_workspace")
+	private Integer idWorkspace;
 	private String nombre;
 	private String descripcion;
 	@ManyToOne
@@ -34,11 +35,11 @@ public class WorkSpace {
 
 	// Getters y Setters
 	public Integer getId_workspace() {
-		return id_workspace;
+		return idWorkspace;
 	}
 
 	public void setId_workspace(Integer id_workspace) {
-		this.id_workspace = id_workspace;
+		this.idWorkspace = id_workspace;
 	}
 
 	public String getNombre() {
@@ -76,7 +77,7 @@ public class WorkSpace {
 	// Tostring
 	@Override
 	public String toString() {
-		return "WorkSpace [id_workspace=" + id_workspace + ", nombre=" + nombre + ", descripcion=" + descripcion
+		return "WorkSpace [id_workspace=" + idWorkspace + ", nombre=" + nombre + ", descripcion=" + descripcion
 				+ ", usuarioAsignado=" + usuarioAsignado + ", fecha_creacion=" + fecha_creacion + "]";
 	}
 
