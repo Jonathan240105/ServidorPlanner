@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Tarea {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id_tarea;
+	private Integer idTarea;
 	private String titulo;
 	private String descripcion;
 	private int posicion;
@@ -42,11 +42,11 @@ public class Tarea {
 
 	// Getters y Setters
 	public Integer getId_tarea() {
-		return id_tarea;
+		return idTarea;
 	}
 
 	public void setId_tarea(Integer id_tarea) {
-		this.id_tarea = id_tarea;
+		this.idTarea = id_tarea;
 	}
 
 	public String getTitulo() {
@@ -108,7 +108,7 @@ public class Tarea {
 	// Tostring
 	@Override
 	public String toString() {
-		return "Tarea [id_tarea=" + id_tarea + ", titulo=" + titulo + ", descripcion=" + descripcion + ", posicion="
+		return "Tarea [id_tarea=" + idTarea + ", titulo=" + titulo + ", descripcion=" + descripcion + ", posicion="
 				+ posicion + ", fecha_limite=" + fecha_limite + ", fecha_creacion=" + fecha_creacion + ", lista="
 				+ lista + ", usuarioAsignado=" + usuarioAsignado + "]";
 	}
