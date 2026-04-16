@@ -4,13 +4,14 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
+@Entity
 public class Tarea {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_tarea;
 	private String titulo;
 	private String descripcion;
-	private Integer posicion;
+	private int posicion;
 	private LocalDateTime fecha_limite;
 	@Column(insertable = false, updatable = false)
 	private LocalDateTime fecha_creacion;
@@ -27,10 +28,9 @@ public class Tarea {
 		super();
 	}
 
-	public Tarea(Integer id_tarea, String titulo, String descripcion, Integer posicion, LocalDateTime fecha_limite,
+	public Tarea( String titulo, String descripcion, int posicion, LocalDateTime fecha_limite,
 			LocalDateTime fecha_creacion, Lista lista, Usuario usuarioAsignado) {
 		super();
-		this.id_tarea = id_tarea;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.posicion = posicion;
@@ -65,11 +65,11 @@ public class Tarea {
 		this.descripcion = descripcion;
 	}
 
-	public Integer getPosicion() {
+	public int getPosicion() {
 		return posicion;
 	}
 
-	public void setPosicion(Integer posicion) {
+	public void setPosicion(int posicion) {
 		this.posicion = posicion;
 	}
 
