@@ -49,4 +49,8 @@ public class ComentarioService {
 		
 		return new ComentarioDto(comentario.getContenido());
 	}
+	
+	public void eliminarComentario() {
+		
+	}
 }
