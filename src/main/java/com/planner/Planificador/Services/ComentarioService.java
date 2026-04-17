@@ -23,7 +23,7 @@ public class ComentarioService {
 
 	@Autowired
 	private UsuarioRepository usuariorepo;
-	
+
 	@Autowired
 	private TareaRepository tareaRepo;
 
@@ -41,16 +41,21 @@ public class ComentarioService {
 
 	public ComentarioDto añadirComentario(String contenido, Integer usuarioCreador, Integer tarea) {
 
-		Usuario usuario = usuariorepo.findById(usuarioCreador).orElseThrow(() -> new RuntimeException("No se ha encontrado ningun usuario"));
-		
-		Tarea tareaEncontrada = tareaRepo.findById(tarea).orElseThrow(() -> new RuntimeException("No se ha encontrad ninguna tarea"));
-		
-		Comentario comentario = new Comentario(contenido,LocalDateTime.now(),tareaEncontrada,usuario);
-		
+		Usuario usuario = usuariorepo.findById(usuarioCreador)
+				.orElseThrow(() -> new RuntimeException("No se ha encontrado ningun usuario"));
+
+		Tarea tareaEncontrada = tareaRepo.findById(tarea)
+				.orElseThrow(() -> new RuntimeException("No se ha encontrad ninguna tarea"));
+
+		Comentario comentario = new Comentario(contenido, LocalDateTime.now(), tareaEncontrada, usuario);
+
 		return new ComentarioDto(comentario.getContenido());
 	}
-	
-	public void eliminarComentario() {
-		
+
+	public void eliminarComentario(Integer id) {
+		if (!comentariorepo.existsById(id)) {
+			throw new RuntimeException("Comentario no encontrado");
+		}
+		comentariorepo.deleteById(id);
 	}
 }

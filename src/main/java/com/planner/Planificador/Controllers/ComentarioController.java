@@ -1,0 +1,47 @@
+package com.planner.Planificador.Controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.planner.Planificador.Dtos.ComentarioDto;
+import com.planner.Planificador.Services.ComentarioService;
+
+@RestController
+@RequestMapping("/comentarios")
+public class ComentarioController {
+
+	@Autowired
+	private ComentarioService comentarioService;
+
+	@GetMapping("/{id}")
+	public ResponseEntity<List<ComentarioDto>> listarComentarios(@PathVariable Integer id) {
+		return ResponseEntity.ok(comentarioService.getTodosComentariosDeUnaTarea(id));
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> eliminarComentario(@PathVariable Integer id) {
+		try {
+			comentarioService.eliminarComentario(id);
+			return ResponseEntity.ok("COmentario eliminado");
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+
+	@PostMapping("/nuevo")
+	public ResponseEntity<?> añadirComentario(String contenido, Integer usuario, Integer tarea) {
+		try {
+			ComentarioDto comentario = comentarioService.añadirComentario(contenido, usuario, tarea);
+			return ResponseEntity.ok(comentario);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+}
