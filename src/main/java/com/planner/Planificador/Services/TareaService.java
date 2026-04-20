@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.planner.Planificador.ClasesEntidades.Lista;
 import com.planner.Planificador.ClasesEntidades.Tarea;
 import com.planner.Planificador.ClasesEntidades.Usuario;
+import com.planner.Planificador.Dtos.ActualizarTareaSolicitud;
 import com.planner.Planificador.Dtos.CrearTareaSolicitud;
 import com.planner.Planificador.Dtos.TareaDto;
 import com.planner.Planificador.Repositorys.ListaRepository;
@@ -60,5 +61,44 @@ public class TareaService {
 			throw new RuntimeException("Tarea no encontrada");
 		}
 		tareaRepo.deleteById(id);
+	}
+
+	public List<TareaDto> getTareasPorTitulo(Integer idLista, String titulo) {
+		List<Tarea> listaTareas = tareaRepo.findByLista_idListaAndTituloStartingWith(idLista, titulo);
+
+		return listaTareas.stream()
+				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite()))
+				.collect(Collectors.toList());
+	}
+
+	public TareaDto moverTareaDeLista(Integer idTarea, Integer idNuevaLista) {
+
+		Tarea tarea = tareaRepo.findById(idTarea)
+				.orElseThrow(() -> new RuntimeException("No se han encontrado tareas"));
+
+		Lista lista = listaRepo.findById(idNuevaLista)
+				.orElseThrow(() -> new RuntimeException("No se han encontrado listas"));
+
+		tarea.setLista(lista);
+
+		tareaRepo.save(tarea);
+
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_creacion());
+	}
+
+	public TareaDto actualizarTarea(Integer idTarea, ActualizarTareaSolicitud solicitud) {
+		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
+
+		if (solicitud.getTitulo() != null) {
+			tarea.setTitulo(solicitud.getTitulo());
+		}
+
+		if (solicitud.getFecha_limite() != null) {
+			tarea.setFecha_limite(solicitud.getFecha_limite());
+		}
+
+		tareaRepo.save(tarea);
+
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite());
 	}
 }

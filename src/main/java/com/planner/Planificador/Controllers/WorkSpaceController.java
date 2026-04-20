@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.planner.Planificador.Dtos.ActualizarWorkSpaceSolicitud;
 import com.planner.Planificador.Dtos.CrearWorkSpaceSolicitud;
 import com.planner.Planificador.Dtos.WorkSpaceDto;
 import com.planner.Planificador.Services.WorkSpaceService;
@@ -45,6 +47,24 @@ public class WorkSpaceController {
 		try {
 			WorkSpaceDto workSpace = workSpaceService.crearWorkSpace(body, idUsuarioAsignado);
 			return ResponseEntity.ok(workSpace);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+
+	@GetMapping("/buscar/{idUsuario}")
+	public ResponseEntity<List<WorkSpaceDto>> buscarWorkSpacePorNombre(@PathVariable Integer idUsuario,
+			@RequestParam String nombre) {
+
+		return ResponseEntity.ok(workSpaceService.getTodosWorkSpaceDeUnUsuarioPorTitulo(idUsuario, nombre));
+	}
+
+	@PutMapping("/actualizar/{id}")
+	public ResponseEntity<?> actualizarWorkSpace(@PathVariable Integer id,
+			@RequestBody ActualizarWorkSpaceSolicitud body) {
+		try {
+			WorkSpaceDto wsActualizado = workSpaceService.actualizarNombreWorkSpace(id, body);
+			return ResponseEntity.ok(wsActualizado);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
