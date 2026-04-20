@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
+@Entity
 public class Comentario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,12 +13,13 @@ public class Comentario {
 	private String contenido;
 	@Column(insertable = false, updatable = false)
 	private LocalDateTime fecha_creacion;
-	@ManyToOne
-	@JoinColumn(name = "id_lista_asignada")
-	private Lista lista;
-	@ManyToOne
+
+	@ManyToOne 
 	@JoinColumn(name = "id_usuario_creador")
 	private Usuario usuarioCreador;
+	@ManyToOne
+	@JoinColumn(name = "id_tarea_asignada")
+	private Tarea tarea;
 
 	// Constructor
 
@@ -25,13 +27,12 @@ public class Comentario {
 		super();
 	}
 
-	public Comentario(Integer id_comentario, String contenido, LocalDateTime fecha_creacion, Lista lista,
+	public Comentario(String contenido, LocalDateTime fecha_creacion, Tarea tarea,
 			Usuario usuarioCreador) {
 		super();
-		this.id_comentario = id_comentario;
 		this.contenido = contenido;
 		this.fecha_creacion = fecha_creacion;
-		this.lista = lista;
+		this.tarea = tarea;
 		this.usuarioCreador = usuarioCreador;
 	}
 
@@ -60,12 +61,12 @@ public class Comentario {
 		this.fecha_creacion = fecha_creacion;
 	}
 
-	public Lista getLista() {
-		return lista;
+	public Tarea getTarea() {
+		return tarea;
 	}
 
-	public void setLista(Lista lista) {
-		this.lista = lista;
+	public void setTarea(Tarea tarea) {
+		this.tarea = tarea;
 	}
 
 	public Usuario getUsuarioCreador() {
@@ -80,7 +81,7 @@ public class Comentario {
 	@Override
 	public String toString() {
 		return "Comentario [id_comentario=" + id_comentario + ", contenido=" + contenido + ", fecha_creacion="
-				+ fecha_creacion + ", lista=" + lista + ", usuarioCreador=" + usuarioCreador + "]";
+				+ fecha_creacion + ", tarea=" + tarea + ", usuarioCreador=" + usuarioCreador + "]";
 	}
 
 }

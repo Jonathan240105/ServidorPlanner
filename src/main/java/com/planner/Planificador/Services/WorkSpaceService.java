@@ -30,7 +30,7 @@ public class WorkSpaceService {
 		Usuario usuario = usuarioRepo.findById(usuarioAsignado)
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-		WorkSpace workSpace = new WorkSpace(body.getTitulo(), body.getDesripcion(), usuario, LocalDateTime.now());
+		WorkSpace workSpace = new WorkSpace(body.getTitulo(), body.getDescripcion(), usuario, LocalDateTime.now());
 
 		workSpaceRepo.save(workSpace);
 

@@ -3,7 +3,7 @@ package com.planner.Planificador.Dtos;
 public class CrearWorkSpaceSolicitud {
 
 	private String titulo;
-	private String desripcion;
+	private String descripcion;
 
 	// Constructores
 	public CrearWorkSpaceSolicitud() {
@@ -13,7 +13,7 @@ public class CrearWorkSpaceSolicitud {
 	public CrearWorkSpaceSolicitud(String titulo, String desripcion) {
 		super();
 		this.titulo = titulo;
-		this.desripcion = desripcion;
+		this.descripcion = desripcion;
 	}
 
 	// Getters y Setters
@@ -25,12 +25,12 @@ public class CrearWorkSpaceSolicitud {
 		this.titulo = titulo;
 	}
 
-	public String getDesripcion() {
-		return desripcion;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setDesripcion(String desripcion) {
-		this.desripcion = desripcion;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

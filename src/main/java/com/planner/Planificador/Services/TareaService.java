@@ -51,6 +51,7 @@ public class TareaService {
 		Tarea tarea = new Tarea(body.getTitulo(), body.getDescripcion(), totalTareas + 1, body.getFecha_limite(),
 				LocalDateTime.now(), lista, usuario);
 
+		tareaRepo.save(tarea);
 		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite());
 	}
 
