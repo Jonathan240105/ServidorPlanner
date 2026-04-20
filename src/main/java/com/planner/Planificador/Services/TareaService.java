@@ -62,11 +62,27 @@ public class TareaService {
 		tareaRepo.deleteById(id);
 	}
 
-	public List<TareaDto> getTareasPorTitulo(Integer idLista,String titulo) {
-		List<Tarea> listaTareas = tareaRepo.findByLista_idListaAndTituloStartingWith(idLista,titulo);
+	public List<TareaDto> getTareasPorTitulo(Integer idLista, String titulo) {
+		List<Tarea> listaTareas = tareaRepo.findByLista_idListaAndTituloStartingWith(idLista, titulo);
 
 		return listaTareas.stream()
 				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite()))
 				.collect(Collectors.toList());
 	}
+
+	public TareaDto moverTareaDeLista(Integer idTarea, Integer idNuevaLista) {
+
+		Tarea tarea = tareaRepo.findById(idTarea)
+				.orElseThrow(() -> new RuntimeException("No se han encontrado tareas"));
+
+		Lista lista = listaRepo.findById(idNuevaLista)
+				.orElseThrow(() -> new RuntimeException("No se han encontrado listas"));
+
+		tarea.setLista(lista);
+
+		tareaRepo.save(tarea);
+
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_creacion());
+	}
 }
+

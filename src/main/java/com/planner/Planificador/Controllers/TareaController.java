@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.service.annotation.PutExchange;
 
 import com.planner.Planificador.Dtos.CrearTareaSolicitud;
 import com.planner.Planificador.Dtos.TareaDto;
@@ -50,9 +51,20 @@ public class TareaController {
 		}
 	}
 
-	@GetMapping("buscar/{idLista}")
-	public ResponseEntity<List<TareaDto>> listarTareasPorTitulo(@PathVariable Integer idLista, @RequestParam String titulo) {
-		return ResponseEntity.ok(tareaService.getTareasPorTitulo(idLista,titulo));
+	@GetMapping("/buscar/{idLista}")
+	public ResponseEntity<List<TareaDto>> listarTareasPorTitulo(@PathVariable Integer idLista,
+			@RequestParam String titulo) {
+		return ResponseEntity.ok(tareaService.getTareasPorTitulo(idLista, titulo));
+	}
+
+	@PutExchange("/{idTarea}/mover/{idNuevaLista}")
+	public ResponseEntity<?> actualizarListaTarea(@PathVariable Integer idTarea, @PathVariable Integer idNuevaLista) {
+		try {
+			TareaDto tareaActualizada = tareaService.moverTareaDeLista(idTarea, idNuevaLista);
+			return ResponseEntity.ok(tareaActualizada);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 }
