@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.planner.Planificador.ClasesEntidades.Lista;
 import com.planner.Planificador.ClasesEntidades.WorkSpace;
+import com.planner.Planificador.Dtos.ActualizarListaSolicitud;
 import com.planner.Planificador.Dtos.ListaDto;
 import com.planner.Planificador.Repositorys.ListaRepository;
 import com.planner.Planificador.Repositorys.WorkSpaceRepository;
@@ -46,5 +47,18 @@ public class ListaServices {
 			throw new RuntimeException("Lista no encontrada");
 		}
 		listaRepo.deleteById(id);
+	}
+
+	public ListaDto actualizarNombreLista(Integer idLista, ActualizarListaSolicitud solicitud) {
+
+		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException("Lista no encontrada"));
+
+		if (solicitud.getNombre() != null) {
+			lista.setNombre_lista(solicitud.getNombre());
+		}
+
+		listaRepo.save(lista);
+
+		return new ListaDto(lista.getNombre_lista(), lista.getWorkspace());
 	}
 }

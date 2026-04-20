@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.planner.Planificador.ClasesEntidades.Lista;
 import com.planner.Planificador.ClasesEntidades.Tarea;
 import com.planner.Planificador.ClasesEntidades.Usuario;
+import com.planner.Planificador.Dtos.ActualizarTareaSolicitud;
 import com.planner.Planificador.Dtos.CrearTareaSolicitud;
 import com.planner.Planificador.Dtos.TareaDto;
 import com.planner.Planificador.Repositorys.ListaRepository;
@@ -84,5 +85,20 @@ public class TareaService {
 
 		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_creacion());
 	}
-}
 
+	public TareaDto actualizarTarea(Integer idTarea, ActualizarTareaSolicitud solicitud) {
+		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
+
+		if (solicitud.getTitulo() != null) {
+			tarea.setTitulo(solicitud.getTitulo());
+		}
+
+		if (solicitud.getFecha_limite() != null) {
+			tarea.setFecha_limite(solicitud.getFecha_limite());
+		}
+
+		tareaRepo.save(tarea);
+
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite());
+	}
+}
