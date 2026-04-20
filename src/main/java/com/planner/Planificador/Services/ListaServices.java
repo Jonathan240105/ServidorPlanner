@@ -20,7 +20,6 @@ public class ListaServices {
 	@Autowired
 	private WorkSpaceRepository workSpaceRepo;
 
-
 	public List<ListaDto> getTodasListasDeUnWorkSpace(Integer idWorkSpace) {
 		List<Lista> listaDeListas = listaRepo.findByWorkSpace_idWorkspace(idWorkSpace);
 
@@ -38,9 +37,9 @@ public class ListaServices {
 		Integer totalListas = listaRepo.countByWorkSpace_IdWorkspace(IdWorkSpace);
 
 		Lista listaNueva = new Lista(nombre, totalListas + 1, workSpaceAsignado);
+		listaRepo.save(listaNueva);
 		return new ListaDto(listaNueva.getNombre_lista(), listaNueva.getWorkspace());
 	}
-
 
 	public void eliminarLista(Integer id) {
 		if (!listaRepo.existsById(id)) {

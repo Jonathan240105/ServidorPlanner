@@ -48,6 +48,8 @@ public class ComentarioService {
 				.orElseThrow(() -> new RuntimeException("No se ha encontrad ninguna tarea"));
 
 		Comentario comentario = new Comentario(contenido, LocalDateTime.now(), tareaEncontrada, usuario);
+		System.out.println(comentario.toString());
+		comentariorepo.save(comentario);
 
 		return new ComentarioDto(comentario.getContenido());
 	}

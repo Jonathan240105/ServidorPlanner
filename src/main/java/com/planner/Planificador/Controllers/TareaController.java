@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.planner.Planificador.Dtos.CrearTareaSolicitud;
@@ -38,7 +40,8 @@ public class TareaController {
 	}
 
 	@PostMapping("/nuevo")
-	public ResponseEntity<?> añadirTarea(CrearTareaSolicitud body, Integer usuario, Integer lista) {
+	public ResponseEntity<?> añadirTarea(@RequestBody CrearTareaSolicitud body, @RequestParam Integer usuario,
+			@RequestParam Integer lista) {
 		try {
 			TareaDto tarea = tareaService.añadirTarea(body, usuario, lista);
 			return ResponseEntity.ok(tarea);
