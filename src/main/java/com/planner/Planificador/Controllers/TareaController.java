@@ -50,4 +50,9 @@ public class TareaController {
 		}
 	}
 
+	@GetMapping("buscar/{idLista}")
+	public ResponseEntity<List<TareaDto>> listarTareasPorTitulo(@PathVariable Integer idLista, @RequestParam String titulo) {
+		return ResponseEntity.ok(tareaService.getTareasPorTitulo(idLista,titulo));
+	}
+
 }

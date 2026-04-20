@@ -61,4 +61,12 @@ public class TareaService {
 		}
 		tareaRepo.deleteById(id);
 	}
+
+	public List<TareaDto> getTareasPorTitulo(Integer idLista,String titulo) {
+		List<Tarea> listaTareas = tareaRepo.findByLista_idListaAndTituloStartingWith(idLista,titulo);
+
+		return listaTareas.stream()
+				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite()))
+				.collect(Collectors.toList());
+	}
 }
