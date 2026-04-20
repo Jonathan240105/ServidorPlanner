@@ -39,7 +39,7 @@ public class ComentarioService {
 				.collect(Collectors.toList());
 	}
 
-	public ComentarioDto añadirComentario(String contenido, Integer usuarioCreador, Integer tarea) {
+	public ComentarioDto addComentario(String contenido, Integer usuarioCreador, Integer tarea) {
 
 		Usuario usuario = usuariorepo.findById(usuarioCreador)
 				.orElseThrow(() -> new RuntimeException("No se ha encontrado ningun usuario"));
@@ -54,7 +54,7 @@ public class ComentarioService {
 		return new ComentarioDto(comentario.getContenido());
 	}
 
-	public void eliminarComentario(Integer id) {
+	public void deleteComentario(Integer id) {
 		if (!comentariorepo.existsById(id)) {
 			throw new RuntimeException("Comentario no encontrado");
 		}

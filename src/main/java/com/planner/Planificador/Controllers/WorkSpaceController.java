@@ -34,7 +34,7 @@ public class WorkSpaceController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> eliminarWorkSpace(@PathVariable Integer id) {
 		try {
-			workSpaceService.eliminarWorkSpace(id);
+			workSpaceService.deleteWorkSpace(id);
 			return ResponseEntity.ok("WorkSpace eliminado");
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -42,10 +42,10 @@ public class WorkSpaceController {
 	}
 
 	@PostMapping("/nuevo")
-	public ResponseEntity<?> añadirWorkSpace(@RequestBody CrearWorkSpaceSolicitud body,
+	public ResponseEntity<?> crearWorkSpace(@RequestBody CrearWorkSpaceSolicitud body,
 			@RequestParam Integer idUsuarioAsignado) {
 		try {
-			WorkSpaceDto workSpace = workSpaceService.crearWorkSpace(body, idUsuarioAsignado);
+			WorkSpaceDto workSpace = workSpaceService.addWorkSpace(body, idUsuarioAsignado);
 			return ResponseEntity.ok(workSpace);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -53,7 +53,7 @@ public class WorkSpaceController {
 	}
 
 	@GetMapping("/buscar/{idUsuario}")
-	public ResponseEntity<List<WorkSpaceDto>> buscarWorkSpacePorNombre(@PathVariable Integer idUsuario,
+	public ResponseEntity<List<WorkSpaceDto>> listarWorkSpacePorNombre(@PathVariable Integer idUsuario,
 			@RequestParam String nombre) {
 
 		return ResponseEntity.ok(workSpaceService.getTodosWorkSpaceDeUnUsuarioPorTitulo(idUsuario, nombre));
@@ -63,7 +63,7 @@ public class WorkSpaceController {
 	public ResponseEntity<?> actualizarWorkSpace(@PathVariable Integer id,
 			@RequestBody ActualizarWorkSpaceSolicitud body) {
 		try {
-			WorkSpaceDto wsActualizado = workSpaceService.actualizarNombreWorkSpace(id, body);
+			WorkSpaceDto wsActualizado = workSpaceService.updateWorkSpace(id, body);
 			return ResponseEntity.ok(wsActualizado);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

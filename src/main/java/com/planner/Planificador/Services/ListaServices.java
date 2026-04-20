@@ -31,7 +31,7 @@ public class ListaServices {
 				.collect(Collectors.toList());
 	}
 
-	public ListaDto crearLista(String nombre, Integer IdWorkSpace) {
+	public ListaDto addLista(String nombre, Integer IdWorkSpace) {
 
 		WorkSpace workSpaceAsignado = workSpaceRepo.findById(IdWorkSpace)
 				.orElseThrow(() -> new RuntimeException("No se ha encontrado ningún workSpace"));
@@ -42,14 +42,14 @@ public class ListaServices {
 		return new ListaDto(listaNueva.getNombre_lista(), listaNueva.getWorkspace());
 	}
 
-	public void eliminarLista(Integer id) {
+	public void deleteLista(Integer id) {
 		if (!listaRepo.existsById(id)) {
 			throw new RuntimeException("Lista no encontrada");
 		}
 		listaRepo.deleteById(id);
 	}
 
-	public ListaDto actualizarNombreLista(Integer idLista, ActualizarListaSolicitud solicitud) {
+	public ListaDto updateNombreLista(Integer idLista, ActualizarListaSolicitud solicitud) {
 
 		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException("Lista no encontrada"));
 

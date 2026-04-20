@@ -28,7 +28,7 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<UsuarioDto> getUsuarioPorId(@PathVariable Integer id) {
+	public ResponseEntity<UsuarioDto> listarUsuarioPorId(@PathVariable Integer id) {
 		try {
 			return ResponseEntity.ok(usuarioService.getUsuarioPorId(id));
 		} catch (Exception e) {

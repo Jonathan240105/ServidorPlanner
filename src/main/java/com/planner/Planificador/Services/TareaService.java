@@ -41,7 +41,7 @@ public class TareaService {
 				.collect(Collectors.toList());
 	}
 
-	public TareaDto añadirTarea(CrearTareaSolicitud body, Integer usuarioAsignado, Integer idLista) {
+	public TareaDto addTarea(CrearTareaSolicitud body, Integer usuarioAsignado, Integer idLista) {
 		Usuario usuario = usuarioRepo.findById(usuarioAsignado)
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
@@ -56,7 +56,7 @@ public class TareaService {
 		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite());
 	}
 
-	public void eliminarTarea(Integer id) {
+	public void deleteTarea(Integer id) {
 		if (!tareaRepo.existsById(id)) {
 			throw new RuntimeException("Tarea no encontrada");
 		}
@@ -86,7 +86,7 @@ public class TareaService {
 		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_creacion());
 	}
 
-	public TareaDto actualizarTarea(Integer idTarea, ActualizarTareaSolicitud solicitud) {
+	public TareaDto updateTarea(Integer idTarea, ActualizarTareaSolicitud solicitud) {
 		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
 		if (solicitud.getTitulo() != null) {

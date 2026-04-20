@@ -35,7 +35,7 @@ public class TareaController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> eliminarTarea(@PathVariable Integer id) {
 		try {
-			tareaService.eliminarTarea(id);
+			tareaService.deleteTarea(id);
 			return ResponseEntity.ok("Tarea eliminada");
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -43,10 +43,10 @@ public class TareaController {
 	}
 
 	@PostMapping("/nuevo")
-	public ResponseEntity<?> añadirTarea(@RequestBody CrearTareaSolicitud body, @RequestParam Integer usuario,
+	public ResponseEntity<?> crearTarea(@RequestBody CrearTareaSolicitud body, @RequestParam Integer usuario,
 			@RequestParam Integer lista) {
 		try {
-			TareaDto tarea = tareaService.añadirTarea(body, usuario, lista);
+			TareaDto tarea = tareaService.addTarea(body, usuario, lista);
 			return ResponseEntity.ok(tarea);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -60,7 +60,7 @@ public class TareaController {
 	}
 
 	@PutExchange("/{idTarea}/mover/{idNuevaLista}")
-	public ResponseEntity<?> actualizarListaTarea(@PathVariable Integer idTarea, @PathVariable Integer idNuevaLista) {
+	public ResponseEntity<?> moverTareaDeLista(@PathVariable Integer idTarea, @PathVariable Integer idNuevaLista) {
 		try {
 			TareaDto tareaActualizada = tareaService.moverTareaDeLista(idTarea, idNuevaLista);
 			return ResponseEntity.ok(tareaActualizada);
@@ -72,7 +72,7 @@ public class TareaController {
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizarTarea(@PathVariable Integer id, @RequestBody ActualizarTareaSolicitud body) {
 		try {
-			TareaDto tareaEditada = tareaService.actualizarTarea(id, body);
+			TareaDto tareaEditada = tareaService.updateTarea(id, body);
 			return ResponseEntity.ok(tareaEditada);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());

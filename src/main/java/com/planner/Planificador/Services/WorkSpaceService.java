@@ -24,7 +24,7 @@ public class WorkSpaceService {
 	@Autowired
 	private UsuarioRepository usuarioRepo;
 
-	public WorkSpaceDto crearWorkSpace(CrearWorkSpaceSolicitud body, Integer usuarioAsignado) {
+	public WorkSpaceDto addWorkSpace(CrearWorkSpaceSolicitud body, Integer usuarioAsignado) {
 
 		Usuario usuario = usuarioRepo.findById(usuarioAsignado)
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -48,7 +48,7 @@ public class WorkSpaceService {
 				.collect(Collectors.toList());
 	}
 
-	public void eliminarWorkSpace(Integer id) {
+	public void deleteWorkSpace(Integer id) {
 		if (!workSpaceRepo.existsById(id)) {
 			throw new RuntimeException("WorkSpace no encontrado");
 		}
@@ -68,7 +68,7 @@ public class WorkSpaceService {
 				workSpace.getDescripcion(), workSpace.getUsuarioAsignado())).collect(Collectors.toList());
 	}
 
-	public WorkSpaceDto actualizarNombreWorkSpace(Integer idWorkSpace, ActualizarWorkSpaceSolicitud solicitud) {
+	public WorkSpaceDto updateWorkSpace(Integer idWorkSpace, ActualizarWorkSpaceSolicitud solicitud) {
 
 		WorkSpace workSpace = workSpaceRepo.findById(idWorkSpace)
 				.orElseThrow(() -> new RuntimeException("WorkSpace no encontrado"));
