@@ -49,4 +49,11 @@ public class WorkSpaceController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+
+	@GetMapping("/buscar/{idUsuario}")
+	public ResponseEntity<List<WorkSpaceDto>> buscarWorkSpacePorNombre(@PathVariable Integer idUsuario,
+			@RequestParam String nombre) {
+
+		return ResponseEntity.ok(workSpaceService.getTodosWorkSpaceDeUnUsuarioPorTitulo(idUsuario, nombre));
+	}
 }

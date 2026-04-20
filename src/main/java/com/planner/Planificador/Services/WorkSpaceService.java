@@ -56,4 +56,17 @@ public class WorkSpaceService {
 
 		workSpaceRepo.deleteById(id);
 	}
+
+	public List<WorkSpaceDto> getTodosWorkSpaceDeUnUsuarioPorTitulo(Integer idUsuario, String nombre) {
+		List<WorkSpace> listaWorkSpaces = workSpaceRepo.findByUsuarioAsignado_IdUsuarioAndNombreStartingWith(idUsuario,
+				nombre);
+
+		if (listaWorkSpaces.isEmpty()) {
+			throw new RuntimeException("No se encontraron workSpaces con ese nombre");
+		}
+
+		return listaWorkSpaces.stream().map(workSpace -> new WorkSpaceDto(workSpace.getNombre(),
+				workSpace.getDescripcion(), workSpace.getUsuarioAsignado())).collect(Collectors.toList());
+	}
+
 }
