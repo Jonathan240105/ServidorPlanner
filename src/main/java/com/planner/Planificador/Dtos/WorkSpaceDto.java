@@ -1,19 +1,17 @@
 package com.planner.Planificador.Dtos;
 
-import com.planner.Planificador.ClasesEntidades.Usuario;
-
 public class WorkSpaceDto {
 
 	private String nombre;
 	private String descripcion;
-	private Usuario usuarioAsignado;
+	private String usuarioAsignado;
 
 	// Constructores
 	public WorkSpaceDto() {
 		super();
 	}
 
-	public WorkSpaceDto(String nombre, String descripcion, Usuario usuarioAsignado) {
+	public WorkSpaceDto(String nombre, String descripcion, String usuarioAsignado) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -37,11 +35,11 @@ public class WorkSpaceDto {
 		this.descripcion = descripcion;
 	}
 
-	public Usuario getUsuarioAsignado() {
+	public String getUsuarioAsignado() {
 		return usuarioAsignado;
 	}
 
-	public void setUsuarioAsignado(Usuario usuarioAsignado) {
+	public void setUsuarioAsignado(String usuarioAsignado) {
 		this.usuarioAsignado = usuarioAsignado;
 	}
 

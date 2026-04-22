@@ -13,10 +13,14 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_usuario")
 	private Integer idUsuario;
+	@Column(nullable = false)
 	private String nombre_usuario;
+	@Column(unique = true, nullable = false)
 	private String email;
+	@Column(nullable = false)
 	private String contra;
 	private String foto_usuario;
+	@Column(updatable = false)
 	private LocalDateTime fecha_creacion;
 
 	// Constructor

@@ -32,12 +32,13 @@ public class TareaService {
 	public List<TareaDto> getTodasTareasDeUnaLista(Integer idLista) {
 		List<Tarea> listaTareas = tareaRepo.findByLista_idLista(idLista);
 
+		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException(""));
 		if (listaTareas.isEmpty()) {
 			throw new RuntimeException("No se han encontrado tareas");
 		}
 
 		return listaTareas.stream()
-				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_creacion()))
+				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(),lista.getNombre_lista(), tarea.getFecha_creacion()))
 				.collect(Collectors.toList());
 	}
 
@@ -53,7 +54,7 @@ public class TareaService {
 				LocalDateTime.now(), lista, usuario);
 
 		tareaRepo.save(tarea);
-		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite());
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(),lista.getNombre_lista(), tarea.getFecha_limite());
 	}
 
 	public void deleteTarea(Integer id) {
@@ -66,8 +67,9 @@ public class TareaService {
 	public List<TareaDto> getTareasPorTitulo(Integer idLista, String titulo) {
 		List<Tarea> listaTareas = tareaRepo.findByLista_idListaAndTituloStartingWith(idLista, titulo);
 
+		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException("Lista no encontrada"));
 		return listaTareas.stream()
-				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite()))
+				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(),lista.getNombre_lista(), tarea.getFecha_limite()))
 				.collect(Collectors.toList());
 	}
 
@@ -83,7 +85,7 @@ public class TareaService {
 
 		tareaRepo.save(tarea);
 
-		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_creacion());
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(),lista.getNombre_lista(), tarea.getFecha_creacion());
 	}
 
 	public TareaDto updateTarea(Integer idTarea, ActualizarTareaSolicitud solicitud) {
@@ -99,6 +101,6 @@ public class TareaService {
 
 		tareaRepo.save(tarea);
 
-		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getFecha_limite());
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(),tarea.getLista().getNombre_lista(), tarea.getFecha_limite());
 	}
 }

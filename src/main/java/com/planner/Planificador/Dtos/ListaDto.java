@@ -1,10 +1,8 @@
 package com.planner.Planificador.Dtos;
 
-import com.planner.Planificador.ClasesEntidades.WorkSpace;
-
 public class ListaDto {
 	private String nombre;
-	private WorkSpace workSpace;
+	private String workSpace;
 
 	// Constructores
 
@@ -12,7 +10,7 @@ public class ListaDto {
 		super();
 	}
 
-	public ListaDto(String nombre, WorkSpace workSpace) {
+	public ListaDto(String nombre, String workSpace) {
 		super();
 		this.nombre = nombre;
 		this.workSpace = workSpace;
@@ -27,11 +25,11 @@ public class ListaDto {
 		this.nombre = nombre;
 	}
 
-	public WorkSpace getWorkSpace() {
+	public String getWorkSpace() {
 		return workSpace;
 	}
 
-	public void setWorkSpace(WorkSpace workSpace) {
+	public void setWorkSpace(String workSpace) {
 		this.workSpace = workSpace;
 	}
 
