@@ -34,23 +34,19 @@ public class TareaController {
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> eliminarTarea(@PathVariable Integer id) {
-		try {
-			tareaService.deleteTarea(id);
-			return ResponseEntity.ok("Tarea eliminada");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		tareaService.deleteTarea(id);
+		return ResponseEntity.ok("Tarea eliminada");
+
 	}
 
 	@PostMapping("/nuevo")
 	public ResponseEntity<?> crearTarea(@RequestBody CrearTareaSolicitud body, @RequestParam Integer usuario,
-			@RequestParam Integer lista) {
-		try {
-			TareaDto tarea = tareaService.addTarea(body, usuario, lista);
-			return ResponseEntity.ok(tarea);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+			@RequestParam Integer lista, @RequestParam Integer usuarioCreador) {
+
+		TareaDto tarea = tareaService.addTarea(body, usuario, lista, usuarioCreador);
+		return ResponseEntity.ok(tarea);
+
 	}
 
 	@GetMapping("/buscar/{idLista}")
@@ -61,21 +57,17 @@ public class TareaController {
 
 	@PutExchange("/{idTarea}/mover/{idNuevaLista}")
 	public ResponseEntity<?> moverTareaDeLista(@PathVariable Integer idTarea, @PathVariable Integer idNuevaLista) {
-		try {
-			TareaDto tareaActualizada = tareaService.moverTareaDeLista(idTarea, idNuevaLista);
-			return ResponseEntity.ok(tareaActualizada);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		TareaDto tareaActualizada = tareaService.moverTareaDeLista(idTarea, idNuevaLista);
+		return ResponseEntity.ok(tareaActualizada);
+
 	}
 
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizarTarea(@PathVariable Integer id, @RequestBody ActualizarTareaSolicitud body) {
-		try {
-			TareaDto tareaEditada = tareaService.updateTarea(id, body);
-			return ResponseEntity.ok(tareaEditada);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		TareaDto tareaEditada = tareaService.updateTarea(id, body);
+		return ResponseEntity.ok(tareaEditada);
+
 	}
 }

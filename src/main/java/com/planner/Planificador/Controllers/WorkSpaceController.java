@@ -33,23 +33,19 @@ public class WorkSpaceController {
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> eliminarWorkSpace(@PathVariable Integer id) {
-		try {
-			workSpaceService.deleteWorkSpace(id);
-			return ResponseEntity.ok("WorkSpace eliminado");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		workSpaceService.deleteWorkSpace(id);
+		return ResponseEntity.ok("WorkSpace eliminado");
+
 	}
 
 	@PostMapping("/nuevo")
 	public ResponseEntity<?> crearWorkSpace(@RequestBody CrearWorkSpaceSolicitud body,
 			@RequestParam Integer idUsuarioAsignado) {
-		try {
-			WorkSpaceDto workSpace = workSpaceService.addWorkSpace(body, idUsuarioAsignado);
-			return ResponseEntity.ok(workSpace);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		WorkSpaceDto workSpace = workSpaceService.addWorkSpace(body, idUsuarioAsignado);
+		return ResponseEntity.ok(workSpace);
+
 	}
 
 	@GetMapping("/buscar/{idUsuario}")
@@ -62,11 +58,9 @@ public class WorkSpaceController {
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizarWorkSpace(@PathVariable Integer id,
 			@RequestBody ActualizarWorkSpaceSolicitud body) {
-		try {
-			WorkSpaceDto wsActualizado = workSpaceService.updateWorkSpace(id, body);
-			return ResponseEntity.ok(wsActualizado);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		WorkSpaceDto wsActualizado = workSpaceService.updateWorkSpace(id, body);
+		return ResponseEntity.ok(wsActualizado);
+
 	}
 }

@@ -6,6 +6,7 @@ public class TareaDto {
 	private String titulo;
 	private String descripcion;
 	private String nombreLista;
+	private String asignadoPor;
 	private LocalDateTime fechaLimite;
 
 	// Constructores
@@ -13,12 +14,14 @@ public class TareaDto {
 		super();
 	}
 
-	public TareaDto(String titulo, String descripcion, String nombreLista, LocalDateTime fechaLimite) {
+	public TareaDto(String titulo, String descripcion, String nombreLista, LocalDateTime fechaLimite,
+			String asignadoPor) {
 		super();
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.nombreLista = nombreLista;
 		this.fechaLimite = fechaLimite;
+		this.asignadoPor = asignadoPor;
 	}
 
 	// Getters y Setters
@@ -52,6 +55,14 @@ public class TareaDto {
 
 	public void setFechaLimite(LocalDateTime fechaLimite) {
 		this.fechaLimite = fechaLimite;
+	}
+
+	public String getAsignadoPor() {
+		return asignadoPor;
+	}
+
+	public void setAsignadoPor(String asignadoPor) {
+		this.asignadoPor = asignadoPor;
 	}
 
 }

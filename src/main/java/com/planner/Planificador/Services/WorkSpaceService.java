@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.planner.Planificador.ClasesEntidades.Lista;
 import com.planner.Planificador.ClasesEntidades.Usuario;
 import com.planner.Planificador.ClasesEntidades.WorkSpace;
 import com.planner.Planificador.Dtos.ActualizarWorkSpaceSolicitud;
 import com.planner.Planificador.Dtos.CrearWorkSpaceSolicitud;
 import com.planner.Planificador.Dtos.WorkSpaceDto;
+import com.planner.Planificador.Repositorys.ListaRepository;
 import com.planner.Planificador.Repositorys.UsuarioRepository;
 import com.planner.Planificador.Repositorys.WorkSpaceRepository;
 
@@ -24,6 +26,9 @@ public class WorkSpaceService {
 	@Autowired
 	private UsuarioRepository usuarioRepo;
 
+	@Autowired
+	private ListaRepository listaRepo;
+
 	public WorkSpaceDto addWorkSpace(CrearWorkSpaceSolicitud body, Integer usuarioAsignado) {
 
 		Usuario usuario = usuarioRepo.findById(usuarioAsignado)
@@ -33,7 +38,16 @@ public class WorkSpaceService {
 
 		workSpaceRepo.save(workSpace);
 
-		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(),usuario.getNombre_usuario());
+		List<String> listasPorDefecto = List.of("To do", "Doing", "Done");
+
+		int contador = 1;
+		for (String nombre : listasPorDefecto) {
+			Lista listaNueva = new Lista(nombre, contador, workSpace);
+			listaRepo.save(listaNueva);
+			contador++;
+		}
+
+		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(), usuario.getNombre_usuario());
 	}
 
 	public List<WorkSpaceDto> getTodosWorkSpaceDeUnUsuario(Integer usuario) {
@@ -47,8 +61,7 @@ public class WorkSpaceService {
 		}
 
 		return listaWorkSpaces.stream()
-				.map(w -> new WorkSpaceDto(w.getNombre(), w.getDescripcion(),
-						usuarioAsignado.getNombre_usuario()))
+				.map(w -> new WorkSpaceDto(w.getNombre(), w.getDescripcion(), usuarioAsignado.getNombre_usuario()))
 				.collect(Collectors.toList());
 	}
 
@@ -70,10 +83,8 @@ public class WorkSpaceService {
 			throw new RuntimeException("No se encontraron workSpaces con ese nombre");
 		}
 
-		return listaWorkSpaces.stream()
-				.map(workSpace -> new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(),
-						usuarioAsignado.getNombre_usuario()))
-				.collect(Collectors.toList());
+		return listaWorkSpaces.stream().map(workSpace -> new WorkSpaceDto(workSpace.getNombre(),
+				workSpace.getDescripcion(), usuarioAsignado.getNombre_usuario())).collect(Collectors.toList());
 	}
 
 	public WorkSpaceDto updateWorkSpace(Integer idWorkSpace, ActualizarWorkSpaceSolicitud solicitud) {
@@ -90,8 +101,7 @@ public class WorkSpaceService {
 
 		workSpaceRepo.save(workSpace);
 
-		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(),
-				usuarioAsignado.getNombre_usuario());
+		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(), usuarioAsignado.getNombre_usuario());
 	}
 
 }

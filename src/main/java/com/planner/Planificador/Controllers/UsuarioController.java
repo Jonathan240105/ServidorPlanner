@@ -35,29 +35,24 @@ public class UsuarioController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDto> listarUsuarioPorId(@PathVariable Integer id) {
-		try {
-			return ResponseEntity.ok(usuarioService.getUsuarioPorId(id));
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
+
+		return ResponseEntity.ok(usuarioService.getUsuarioPorId(id));
 
 	}
 
 	@PostMapping("/iniciarSesion")
 	public ResponseEntity<?> iniciarSesionEmailContra(@RequestBody InicioSesionSolicitud solicitudInicioSesion) {
-		try {
-			UsuarioDto usuario = usuarioService.iniciarSesion(solicitudInicioSesion.getEmail(),
-					solicitudInicioSesion.getContra());
 
-			String token = tokenUtil.generateToken(usuario.getEmail());
+		UsuarioDto usuario = usuarioService.iniciarSesion(solicitudInicioSesion.getEmail(),
+				solicitudInicioSesion.getContra());
 
-			Map<String, Object> respuesta = new HashMap<>();
-			respuesta.put("token", token);
-			respuesta.put("usuario", usuario);
+		String token = tokenUtil.generateToken(usuario.getEmail());
 
-			return ResponseEntity.ok(respuesta);
-		} catch (RuntimeException e) {
-			return ResponseEntity.status(401).body(e.getMessage());
-		}
+		Map<String, Object> respuesta = new HashMap<>();
+		respuesta.put("token", token);
+		respuesta.put("usuario", usuario);
+
+		return ResponseEntity.ok(respuesta);
+
 	}
 }

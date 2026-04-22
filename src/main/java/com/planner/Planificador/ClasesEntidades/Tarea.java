@@ -21,6 +21,9 @@ public class Tarea {
 	@ManyToOne
 	@JoinColumn(name = "id_usuario_asignado")
 	private Usuario usuarioAsignado;
+	@ManyToOne
+	@JoinColumn(name = "id_usuario_creador")
+	private Usuario asignadaPor;
 
 	// Constructor
 
@@ -29,7 +32,7 @@ public class Tarea {
 	}
 
 	public Tarea( String titulo, String descripcion, int posicion, LocalDateTime fecha_limite,
-			LocalDateTime fecha_creacion, Lista lista, Usuario usuarioAsignado) {
+			LocalDateTime fecha_creacion, Lista lista, Usuario usuarioAsignado,Usuario asignadaPor) {
 		super();
 		this.titulo = titulo;
 		this.descripcion = descripcion;
@@ -38,6 +41,7 @@ public class Tarea {
 		this.fecha_creacion = fecha_creacion;
 		this.lista = lista;
 		this.usuarioAsignado = usuarioAsignado;
+		this.asignadaPor = asignadaPor;
 	}
 
 	// Getters y Setters
@@ -103,6 +107,22 @@ public class Tarea {
 
 	public void setUsuarioAsignado(Usuario usuarioAsignado) {
 		this.usuarioAsignado = usuarioAsignado;
+	}
+
+	public Integer getIdTarea() {
+		return idTarea;
+	}
+
+	public void setIdTarea(Integer idTarea) {
+		this.idTarea = idTarea;
+	}
+
+	public Usuario getAsignadaPor() {
+		return asignadaPor;
+	}
+
+	public void setAsignadaPor(Usuario asignadaPor) {
+		this.asignadaPor = asignadaPor;
 	}
 
 	// Tostring
