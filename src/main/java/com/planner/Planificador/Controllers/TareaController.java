@@ -44,9 +44,9 @@ public class TareaController {
 
 	@PostMapping("/nuevo")
 	public ResponseEntity<?> crearTarea(@RequestBody CrearTareaSolicitud body, @RequestParam Integer usuario,
-			@RequestParam Integer lista) {
+			@RequestParam Integer lista,@RequestParam Integer usuarioCreador) {
 		try {
-			TareaDto tarea = tareaService.addTarea(body, usuario, lista);
+			TareaDto tarea = tareaService.addTarea(body, usuario, lista,usuarioCreador);
 			return ResponseEntity.ok(tarea);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
