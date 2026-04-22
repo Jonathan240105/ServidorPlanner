@@ -33,18 +33,22 @@ public class WorkSpaceService {
 
 		workSpaceRepo.save(workSpace);
 
-		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(), workSpace.getUsuarioAsignado());
+		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(),usuario.getNombre_usuario());
 	}
 
 	public List<WorkSpaceDto> getTodosWorkSpaceDeUnUsuario(Integer usuario) {
 		List<WorkSpace> listaWorkSpaces = workSpaceRepo.findByUsuarioAsignado_IdUsuario(usuario);
+
+		Usuario usuarioAsignado = usuarioRepo.findById(usuario)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
 		if (listaWorkSpaces.isEmpty()) {
 			throw new RuntimeException("No se encontraron WorkSpaces");
 		}
 
 		return listaWorkSpaces.stream()
-				.map(w -> new WorkSpaceDto(w.getNombre(), w.getDescripcion(), w.getUsuarioAsignado()))
+				.map(w -> new WorkSpaceDto(w.getNombre(), w.getDescripcion(),
+						usuarioAsignado.getNombre_usuario()))
 				.collect(Collectors.toList());
 	}
 
@@ -59,13 +63,17 @@ public class WorkSpaceService {
 	public List<WorkSpaceDto> getTodosWorkSpaceDeUnUsuarioPorTitulo(Integer idUsuario, String nombre) {
 		List<WorkSpace> listaWorkSpaces = workSpaceRepo.findByUsuarioAsignado_IdUsuarioAndNombreStartingWith(idUsuario,
 				nombre);
+		Usuario usuarioAsignado = usuarioRepo.findById(idUsuario)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
 		if (listaWorkSpaces.isEmpty()) {
 			throw new RuntimeException("No se encontraron workSpaces con ese nombre");
 		}
 
-		return listaWorkSpaces.stream().map(workSpace -> new WorkSpaceDto(workSpace.getNombre(),
-				workSpace.getDescripcion(), workSpace.getUsuarioAsignado())).collect(Collectors.toList());
+		return listaWorkSpaces.stream()
+				.map(workSpace -> new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(),
+						usuarioAsignado.getNombre_usuario()))
+				.collect(Collectors.toList());
 	}
 
 	public WorkSpaceDto updateWorkSpace(Integer idWorkSpace, ActualizarWorkSpaceSolicitud solicitud) {
@@ -73,13 +81,17 @@ public class WorkSpaceService {
 		WorkSpace workSpace = workSpaceRepo.findById(idWorkSpace)
 				.orElseThrow(() -> new RuntimeException("WorkSpace no encontrado"));
 
+		Usuario usuarioAsignado = usuarioRepo.findById(workSpace.getUsuarioAsignado().getId_usuario())
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
 		if (solicitud.getNombre() != null) {
 			workSpace.setNombre(solicitud.getNombre());
 		}
 
 		workSpaceRepo.save(workSpace);
 
-		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(), workSpace.getUsuarioAsignado());
+		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(),
+				usuarioAsignado.getNombre_usuario());
 	}
 
 }
