@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.planner.Planificador.ClasesEntidades.Usuario;
-import com.planner.Planificador.Dtos.UsuarioDto;
+import com.planner.Planificador.Dtos.Entidades.UsuarioDto;
 import com.planner.Planificador.Repositorys.UsuarioRepository;
 
 @Service

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.planner.Planificador.ClasesEntidades.Comentario;
 import com.planner.Planificador.ClasesEntidades.Tarea;
 import com.planner.Planificador.ClasesEntidades.Usuario;
-import com.planner.Planificador.Dtos.ComentarioDto;
+import com.planner.Planificador.Dtos.Entidades.ComentarioDto;
 import com.planner.Planificador.Repositorys.ComentarioRepository;
 import com.planner.Planificador.Repositorys.TareaRepository;
 import com.planner.Planificador.Repositorys.UsuarioRepository;

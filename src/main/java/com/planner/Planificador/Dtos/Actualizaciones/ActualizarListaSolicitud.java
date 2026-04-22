@@ -1,4 +1,4 @@
-package com.planner.Planificador.Dtos;
+package com.planner.Planificador.Dtos.Actualizaciones;
 
 public class ActualizarListaSolicitud {
 	private String nombre;

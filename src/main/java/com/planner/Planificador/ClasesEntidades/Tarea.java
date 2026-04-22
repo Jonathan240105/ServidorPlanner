@@ -3,20 +3,29 @@ package com.planner.Planificador.ClasesEntidades;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Tarea {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idTarea;
+	@Column(nullable = false)
+	@NotBlank(message = "El título de la tarea es obligatorio")
 	private String titulo;
 	private String descripcion;
+	@Min(value = 1, message = "La posición no puede ser negativa")
 	private int posicion;
+	@Future(message = "La fecha límite debe ser una fecha futura")
 	private LocalDateTime fecha_limite;
 	@Column(insertable = false, updatable = false)
 	private LocalDateTime fecha_creacion;
 	@ManyToOne
 	@JoinColumn(name = "id_lista_asignada")
+	@NotNull(message = "La tarea debe pertenecer a una lista")
 	private Lista lista;
 	@ManyToOne
 	@JoinColumn(name = "id_usuario_asignado")
@@ -31,8 +40,8 @@ public class Tarea {
 		super();
 	}
 
-	public Tarea( String titulo, String descripcion, int posicion, LocalDateTime fecha_limite,
-			LocalDateTime fecha_creacion, Lista lista, Usuario usuarioAsignado,Usuario asignadaPor) {
+	public Tarea(String titulo, String descripcion, int posicion, LocalDateTime fecha_limite,
+			LocalDateTime fecha_creacion, Lista lista, Usuario usuarioAsignado, Usuario asignadaPor) {
 		super();
 		this.titulo = titulo;
 		this.descripcion = descripcion;

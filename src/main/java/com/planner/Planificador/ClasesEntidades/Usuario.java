@@ -3,6 +3,9 @@ package com.planner.Planificador.ClasesEntidades;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Usuario")
@@ -14,10 +17,14 @@ public class Usuario {
 	@Column(name = "id_usuario")
 	private Integer idUsuario;
 	@Column(nullable = false)
+	@NotBlank(message = "El nombre es obligatorio")
 	private String nombre_usuario;
 	@Column(unique = true, nullable = false)
+	@Email(message = "El formato no es el correcto")
 	private String email;
 	@Column(nullable = false)
+	@NotBlank(message = "La contraseña es obligatoria")
+	@Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
 	private String contra;
 	private String foto_usuario;
 	@Column(updatable = false)

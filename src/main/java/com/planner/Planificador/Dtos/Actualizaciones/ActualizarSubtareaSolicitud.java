@@ -1,38 +1,27 @@
-package com.planner.Planificador.Dtos;
+package com.planner.Planificador.Dtos.Actualizaciones;
 
-public class SubtareaDto {
+public class ActualizarSubtareaSolicitud {
 
 	private String titulo;
-	private String tarea;
 	private Boolean estado;
 
 	// Constructores
-	public SubtareaDto() {
+	public ActualizarSubtareaSolicitud() {
 		super();
 	}
 
-	public SubtareaDto(String titulo, String tarea, Boolean estado) {
+	public ActualizarSubtareaSolicitud(String titulo, Boolean estado) {
 		super();
 		this.titulo = titulo;
-		this.tarea = tarea;
 		this.estado = estado;
 	}
 
-	// Getters y Setters
 	public String getTitulo() {
 		return titulo;
 	}
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
-	}
-
-	public String getTarea() {
-		return tarea;
-	}
-
-	public void setTarea(String tarea) {
-		this.tarea = tarea;
 	}
 
 	public Boolean getEstado() {

@@ -1,4 +1,4 @@
-package com.planner.Planificador.Dtos;
+package com.planner.Planificador.Dtos.Entidades;
 
 public class ComentarioDto {
 	private String contenido;
