@@ -3,29 +3,34 @@ package com.planner.Planificador.ClasesEntidades;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "workspace")
 public class WorkSpace {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_workspace")
+	@Column(name = "id_workspace")
 	private Integer idWorkspace;
+	@Column(nullable = false, length = 50)
+	@NotBlank(message = "El nombre del workspace es obligatorio")
 	private String nombre;
+	@Column(length = 500)
 	private String descripcion;
 	@ManyToOne
 	@JoinColumn(name = "id_usuario_asignado")
+	@NotNull(message = "El usuario asignado es obligatorio")
 	private Usuario usuarioAsignado;
 	@Column(insertable = false, updatable = false)
 	private LocalDateTime fecha_creacion;
 
-	// Constructor
+	// Constructores
 	public WorkSpace() {
 		super();
 	}
 
-	public WorkSpace(String nombre, String descripcion, Usuario usuarioAsignado,
-			LocalDateTime fecha_creacion) {
+	public WorkSpace(String nombre, String descripcion, Usuario usuarioAsignado, LocalDateTime fecha_creacion) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;

@@ -3,18 +3,19 @@ package com.planner.Planificador.ClasesEntidades;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Comentario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_comentario;
-
+	@Column(nullable = false)
+	@NotBlank(message = "El contenido del comentario no puede estar vacío")
 	private String contenido;
 	@Column(insertable = false, updatable = false)
 	private LocalDateTime fecha_creacion;
-
-	@ManyToOne 
+	@ManyToOne
 	@JoinColumn(name = "id_usuario_creador")
 	private Usuario usuarioCreador;
 	@ManyToOne
@@ -27,8 +28,7 @@ public class Comentario {
 		super();
 	}
 
-	public Comentario(String contenido, LocalDateTime fecha_creacion, Tarea tarea,
-			Usuario usuarioCreador) {
+	public Comentario(String contenido, LocalDateTime fecha_creacion, Tarea tarea, Usuario usuarioCreador) {
 		super();
 		this.contenido = contenido;
 		this.fecha_creacion = fecha_creacion;
