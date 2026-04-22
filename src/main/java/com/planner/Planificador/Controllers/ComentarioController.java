@@ -30,21 +30,18 @@ public class ComentarioController {
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> eliminarComentario(@PathVariable Integer id) {
-		try {
-			comentarioService.deleteComentario(id);
-			return ResponseEntity.ok("COmentario eliminado");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		comentarioService.deleteComentario(id);
+		return ResponseEntity.ok("Comentario eliminado");
+
 	}
 
 	@PostMapping("/nuevo")
-	public ResponseEntity<?> crearComentario(@RequestBody CrearComentarioSolicitud contenido,@RequestParam Integer usuario,@RequestParam Integer tarea) {
-		try {
-			ComentarioDto comentario = comentarioService.addComentario(contenido.getContenido(), usuario, tarea);
-			return ResponseEntity.ok(comentario);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+	public ResponseEntity<?> crearComentario(@RequestBody CrearComentarioSolicitud contenido,
+			@RequestParam Integer usuario, @RequestParam Integer tarea) {
+
+		ComentarioDto comentario = comentarioService.addComentario(contenido.getContenido(), usuario, tarea);
+		return ResponseEntity.ok(comentario);
+
 	}
 }

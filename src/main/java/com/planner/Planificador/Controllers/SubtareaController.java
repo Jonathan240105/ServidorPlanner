@@ -32,32 +32,26 @@ public class SubtareaController {
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> eliminarSubtarea(@PathVariable Integer id) {
-		try {
-			subtareaService.deleteSubtarea(id);
-			return ResponseEntity.ok("Subtarea eliminada");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		subtareaService.deleteSubtarea(id);
+		return ResponseEntity.ok("Subtarea eliminada");
+
 	}
 
 	@PostMapping("/nuevo")
 	public ResponseEntity<?> crearSubtarea(@RequestParam Integer idTarea, @RequestParam String titulo) {
-		try {
-			SubtareaDto subtareaNueva = subtareaService.addSubtarea(idTarea, titulo);
-			return ResponseEntity.ok(subtareaNueva);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		SubtareaDto subtareaNueva = subtareaService.addSubtarea(idTarea, titulo);
+		return ResponseEntity.ok(subtareaNueva);
+
 	}
 
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizarSubtarea(@PathVariable Integer id,
 			@RequestBody ActualizarSubtareaSolicitud body) {
-		try {
-			SubtareaDto subtareaActualizada = subtareaService.updateSubtarea(id, body);
-			return ResponseEntity.ok(subtareaActualizada);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		SubtareaDto subtareaActualizada = subtareaService.updateSubtarea(id, body);
+		return ResponseEntity.ok(subtareaActualizada);
+
 	}
 }

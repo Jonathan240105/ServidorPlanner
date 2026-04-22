@@ -32,32 +32,25 @@ public class ListaController {
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> eliminarLista(@PathVariable Integer id) {
-		try {
-			listaServices.deleteLista(id);
-			return ResponseEntity.ok("Lista eliminada");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
+
+		listaServices.deleteLista(id);
+		return ResponseEntity.ok("Lista eliminada");
+
 	}
 
 	@PostMapping("/nuevo")
 	public ResponseEntity<?> crearLista(@RequestParam String nombre, @RequestParam Integer idWorkSpace) {
-		try {
 
-			ListaDto lista = listaServices.addLista(nombre, idWorkSpace);
-			return ResponseEntity.ok(lista);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
+		ListaDto lista = listaServices.addLista(nombre, idWorkSpace);
+		return ResponseEntity.ok(lista);
+
 	}
 
 	@PutMapping("/actualizar/{id}")
 	public ResponseEntity<?> actualizarLista(@PathVariable Integer id, @RequestBody ActualizarListaSolicitud body) {
-		try {
-			ListaDto listaActualizada = listaServices.updateNombreLista(id, body);
-			return ResponseEntity.ok(listaActualizada);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+
+		ListaDto listaActualizada = listaServices.updateNombreLista(id, body);
+		return ResponseEntity.ok(listaActualizada);
+
 	}
 }
