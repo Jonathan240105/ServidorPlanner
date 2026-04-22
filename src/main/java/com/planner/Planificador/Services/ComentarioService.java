@@ -35,7 +35,7 @@ public class ComentarioService {
 			throw new RuntimeException("No se han encontrado comentarios");
 		}
 
-		return listaComentarios.stream().map(comentario -> new ComentarioDto(comentario.getContenido()))
+		return listaComentarios.stream().map(comentario -> new ComentarioDto(comentario.getContenido(),comentario.getTarea().getTitulo()))
 				.collect(Collectors.toList());
 	}
 
@@ -51,7 +51,7 @@ public class ComentarioService {
 		System.out.println(comentario.toString());
 		comentariorepo.save(comentario);
 
-		return new ComentarioDto(comentario.getContenido());
+		return new ComentarioDto(comentario.getContenido(),comentario.getTarea().getTitulo());
 	}
 
 	public void deleteComentario(Integer id) {
