@@ -14,24 +14,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.planner.Planificador.Dtos.ActualizarWorkSpaceSolicitud;
-import com.planner.Planificador.Dtos.CrearWorkSpaceSolicitud;
-import com.planner.Planificador.Dtos.WorkSpaceDto;
+import com.planner.Planificador.Dtos.Actualizaciones.ActualizarWorkSpaceSolicitud;
+import com.planner.Planificador.Dtos.Entidades.WorkSpaceDto;
+import com.planner.Planificador.Dtos.Solicitudes.CrearWorkSpaceSolicitud;
 import com.planner.Planificador.Services.WorkSpaceService;
+import com.planner.Planificador.Variables.Endpoints;
 
 @RestController
-@RequestMapping("/workSpaces")
+@RequestMapping(Endpoints.Workspace.encabezadoWorkspace)
 public class WorkSpaceController {
 
 	@Autowired
 	private WorkSpaceService workSpaceService;
 
-	@GetMapping("/{id}")
+	@GetMapping(Endpoints.Workspace.getWorkspacesUsuario)
 	public ResponseEntity<List<WorkSpaceDto>> listarTodosWorkSpaceDeUnUsuario(@PathVariable Integer id) {
 		return ResponseEntity.ok(workSpaceService.getTodosWorkSpaceDeUnUsuario(id));
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping(Endpoints.Workspace.eliminarWorkspace)
 	public ResponseEntity<?> eliminarWorkSpace(@PathVariable Integer id) {
 
 		workSpaceService.deleteWorkSpace(id);
@@ -39,7 +40,7 @@ public class WorkSpaceController {
 
 	}
 
-	@PostMapping("/nuevo")
+	@PostMapping(Endpoints.Workspace.nuevoWorkspace)
 	public ResponseEntity<?> crearWorkSpace(@RequestBody CrearWorkSpaceSolicitud body,
 			@RequestParam Integer idUsuarioAsignado) {
 
@@ -48,14 +49,14 @@ public class WorkSpaceController {
 
 	}
 
-	@GetMapping("/buscar/{idUsuario}")
+	@GetMapping(Endpoints.Workspace.buscarWorkspace)
 	public ResponseEntity<List<WorkSpaceDto>> listarWorkSpacePorNombre(@PathVariable Integer idUsuario,
 			@RequestParam String nombre) {
 
 		return ResponseEntity.ok(workSpaceService.getTodosWorkSpaceDeUnUsuarioPorTitulo(idUsuario, nombre));
 	}
 
-	@PutMapping("/actualizar/{id}")
+	@PutMapping(Endpoints.Workspace.actualizarWorkspace)
 	public ResponseEntity<?> actualizarWorkSpace(@PathVariable Integer id,
 			@RequestBody ActualizarWorkSpaceSolicitud body) {
 

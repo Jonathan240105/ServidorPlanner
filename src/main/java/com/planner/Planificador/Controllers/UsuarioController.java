@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.planner.Planificador.Config.TokenUtil;
-import com.planner.Planificador.Dtos.InicioSesionSolicitud;
-import com.planner.Planificador.Dtos.UsuarioDto;
+import com.planner.Planificador.Dtos.Entidades.UsuarioDto;
+import com.planner.Planificador.Dtos.Solicitudes.InicioSesionSolicitud;
 import com.planner.Planificador.Services.UsuarioService;
+import com.planner.Planificador.Variables.Endpoints;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping(Endpoints.Usuario.encabezadoUsuario)
 public class UsuarioController {
 
 	@Autowired
@@ -33,14 +34,14 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.getTodosUsuarios());
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(Endpoints.Usuario.getUsuarioPorId)
 	public ResponseEntity<UsuarioDto> listarUsuarioPorId(@PathVariable Integer id) {
 
 		return ResponseEntity.ok(usuarioService.getUsuarioPorId(id));
 
 	}
 
-	@PostMapping("/iniciarSesion")
+	@PostMapping(Endpoints.Usuario.iniciarSesion)
 	public ResponseEntity<?> iniciarSesionEmailContra(@RequestBody InicioSesionSolicitud solicitudInicioSesion) {
 
 		UsuarioDto usuario = usuarioService.iniciarSesion(solicitudInicioSesion.getEmail(),

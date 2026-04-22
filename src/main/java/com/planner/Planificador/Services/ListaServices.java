@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.planner.Planificador.ClasesEntidades.Lista;
 import com.planner.Planificador.ClasesEntidades.WorkSpace;
-import com.planner.Planificador.Dtos.ActualizarListaSolicitud;
-import com.planner.Planificador.Dtos.ListaDto;
-import com.planner.Planificador.Dtos.WorkSpaceDto;
+import com.planner.Planificador.Dtos.Actualizaciones.ActualizarListaSolicitud;
+import com.planner.Planificador.Dtos.Entidades.ListaDto;
+import com.planner.Planificador.Dtos.Entidades.WorkSpaceDto;
 import com.planner.Planificador.Repositorys.ListaRepository;
 import com.planner.Planificador.Repositorys.WorkSpaceRepository;
 

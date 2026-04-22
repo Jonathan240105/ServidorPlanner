@@ -12,23 +12,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.planner.Planificador.Dtos.ComentarioDto;
-import com.planner.Planificador.Dtos.CrearComentarioSolicitud;
+
+import com.planner.Planificador.Dtos.Entidades.ComentarioDto;
+import com.planner.Planificador.Dtos.Solicitudes.CrearComentarioSolicitud;
 import com.planner.Planificador.Services.ComentarioService;
+import com.planner.Planificador.Variables.Endpoints;
 
 @RestController
-@RequestMapping("/comentarios")
+@RequestMapping(Endpoints.Comentario.encabezadoComentario)
 public class ComentarioController {
 
 	@Autowired
 	private ComentarioService comentarioService;
 
-	@GetMapping("/{id}")
+	@GetMapping(Endpoints.Comentario.getComentariosTarea)
 	public ResponseEntity<List<ComentarioDto>> listarComentarios(@PathVariable Integer id) {
 		return ResponseEntity.ok(comentarioService.getTodosComentariosDeUnaTarea(id));
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping(Endpoints.Comentario.eliminarComentario)
 	public ResponseEntity<?> eliminarComentario(@PathVariable Integer id) {
 
 		comentarioService.deleteComentario(id);
@@ -36,7 +38,7 @@ public class ComentarioController {
 
 	}
 
-	@PostMapping("/nuevo")
+	@PostMapping(Endpoints.Comentario.nuevoComentario)
 	public ResponseEntity<?> crearComentario(@RequestBody CrearComentarioSolicitud contenido,
 			@RequestParam Integer usuario, @RequestParam Integer tarea) {
 

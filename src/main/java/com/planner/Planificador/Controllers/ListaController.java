@@ -14,23 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.planner.Planificador.Dtos.ActualizarListaSolicitud;
-import com.planner.Planificador.Dtos.ListaDto;
+import com.planner.Planificador.Dtos.Actualizaciones.ActualizarListaSolicitud;
+import com.planner.Planificador.Dtos.Entidades.ListaDto;
 import com.planner.Planificador.Services.ListaServices;
+import com.planner.Planificador.Variables.Endpoints;
 
 @RestController
-@RequestMapping("/lista")
+@RequestMapping(Endpoints.Lista.encabezadoLista)
 public class ListaController {
 
 	@Autowired
 	private ListaServices listaServices;
 
-	@GetMapping("/{id}")
+	@GetMapping(Endpoints.Lista.getListasWorkspace)
 	public ResponseEntity<List<ListaDto>> getTodasListasDeUnWorkSpace(@PathVariable Integer id) {
 		return ResponseEntity.ok(listaServices.getTodasListasDeUnWorkSpace(id));
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping(Endpoints.Lista.eliminarLista)
 	public ResponseEntity<?> eliminarLista(@PathVariable Integer id) {
 
 		listaServices.deleteLista(id);
@@ -38,7 +39,7 @@ public class ListaController {
 
 	}
 
-	@PostMapping("/nuevo")
+	@PostMapping(Endpoints.Lista.nuevaLista)
 	public ResponseEntity<?> crearLista(@RequestParam String nombre, @RequestParam Integer idWorkSpace) {
 
 		ListaDto lista = listaServices.addLista(nombre, idWorkSpace);
@@ -46,7 +47,7 @@ public class ListaController {
 
 	}
 
-	@PutMapping("/actualizar/{id}")
+	@PutMapping(Endpoints.Lista.actualizarLista)
 	public ResponseEntity<?> actualizarLista(@PathVariable Integer id, @RequestBody ActualizarListaSolicitud body) {
 
 		ListaDto listaActualizada = listaServices.updateNombreLista(id, body);

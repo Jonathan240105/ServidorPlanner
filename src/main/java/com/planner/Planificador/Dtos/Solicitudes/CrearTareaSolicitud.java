@@ -1,4 +1,4 @@
-package com.planner.Planificador.Dtos;
+package com.planner.Planificador.Dtos.Solicitudes;
 
 import java.time.LocalDateTime;
 

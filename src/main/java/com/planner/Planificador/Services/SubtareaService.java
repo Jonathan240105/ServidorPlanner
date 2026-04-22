@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.planner.Planificador.ClasesEntidades.Subtarea;
 import com.planner.Planificador.ClasesEntidades.Tarea;
-import com.planner.Planificador.Dtos.ActualizarSubtareaSolicitud;
-import com.planner.Planificador.Dtos.SubtareaDto;
+import com.planner.Planificador.Dtos.Actualizaciones.ActualizarSubtareaSolicitud;
+import com.planner.Planificador.Dtos.Entidades.SubtareaDto;
 import com.planner.Planificador.Repositorys.SubtareaRepository;
 import com.planner.Planificador.Repositorys.TareaRepository;
 

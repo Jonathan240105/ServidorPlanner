@@ -1,4 +1,4 @@
-package com.planner.Planificador.Dtos;
+package com.planner.Planificador.Dtos.Solicitudes;
 
 public class InicioSesionSolicitud {
 	private String email;
