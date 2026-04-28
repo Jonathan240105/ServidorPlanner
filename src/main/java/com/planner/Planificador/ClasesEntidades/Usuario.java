@@ -29,7 +29,7 @@ public class Usuario {
 	private String foto_usuario;
 	@Column(updatable = false)
 	private LocalDateTime fecha_creacion;
-	@Column(nullable = false)
+	@Column(name = "esAdmin", nullable = false)
 	private boolean esAdmin = false;
 
 	// Constructor
@@ -95,6 +95,14 @@ public class Usuario {
 
 	public void setFecha_creacion(LocalDateTime fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
+	}
+
+	public boolean getRol() {
+		return esAdmin;
+	}
+
+	public void setRol(boolean esAdmin) {
+		this.esAdmin = esAdmin;
 	}
 
 	// Tostring

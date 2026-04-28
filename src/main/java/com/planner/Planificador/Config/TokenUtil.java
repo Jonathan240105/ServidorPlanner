@@ -17,9 +17,14 @@ public class TokenUtil {
 
 	private final long tiempoExpiracion = 36000000;
 
-	public String generateToken(String username) {
-		return Jwts.builder().setSubject(username).setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis() + tiempoExpiracion)).signWith(clave).compact();
+	public String generateToken(TokenPayload payload) {
+		return Jwts.builder()
+				.setSubject(payload.getNombreUsuario())
+				.claim("rol", payload.getRol())
+				.claim("idUsuario", payload.getIdUsuario())
+				.setIssuedAt(new Date())
+				.setExpiration(new Date(System.currentTimeMillis() + tiempoExpiracion))
+				.signWith(clave).compact();
 	}
 
 	private Claims leerToken(String token) {

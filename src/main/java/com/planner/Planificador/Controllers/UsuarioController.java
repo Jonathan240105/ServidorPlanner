@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.planner.Planificador.Config.TokenPayload;
 import com.planner.Planificador.Config.TokenUtil;
 import com.planner.Planificador.Dtos.Entidades.UsuarioDto;
 import com.planner.Planificador.Dtos.Solicitudes.InicioSesionSolicitud;
@@ -47,7 +48,9 @@ public class UsuarioController {
 		UsuarioDto usuario = usuarioService.iniciarSesion(solicitudInicioSesion.getEmail(),
 				solicitudInicioSesion.getContra());
 
-		String token = tokenUtil.generateToken(usuario.getEmail());
+		System.out.println("Rol del payload: " + usuario.getRol());
+		TokenPayload payload = new TokenPayload(usuario.getNombre(), usuario.getRol(), usuario.getId());
+		String token = tokenUtil.generateToken(payload);
 
 		Map<String, Object> respuesta = new HashMap<>();
 		respuesta.put("token", token);
