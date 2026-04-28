@@ -29,6 +29,8 @@ public class Usuario {
 	private String foto_usuario;
 	@Column(updatable = false)
 	private LocalDateTime fecha_creacion;
+	@Column(nullable = false)
+	private boolean esAdmin = false;
 
 	// Constructor
 	public Usuario() {
