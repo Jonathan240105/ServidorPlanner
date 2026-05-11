@@ -18,7 +18,7 @@ public class UsuarioService {
 
 	public List<UsuarioDto> getTodosUsuarios() {
 		return usuarioRepo.findAll().stream().map(usuario -> new UsuarioDto(usuario.getId_usuario(),
-				usuario.getNombre_usuario(), usuario.getEmail(), usuario.getFoto_usuario()))
+				usuario.getNombre_usuario(), usuario.getEmail(), usuario.getFoto_usuario(), usuario.getRol()))
 				.collect(Collectors.toList());
 
 	}
@@ -27,7 +27,7 @@ public class UsuarioService {
 
 		Usuario usuario = usuarioRepo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 		return new UsuarioDto(usuario.getId_usuario(), usuario.getNombre_usuario(), usuario.getEmail(),
-				usuario.getFoto_usuario());
+				usuario.getFoto_usuario(), usuario.getRol());
 	}
 
 	public UsuarioDto iniciarSesion(String email, String contra) {
@@ -40,6 +40,6 @@ public class UsuarioService {
 		}
 
 		return new UsuarioDto(usuario.getId_usuario(), usuario.getNombre_usuario(), usuario.getEmail(),
-				usuario.getFoto_usuario());
+				usuario.getFoto_usuario(), usuario.getRol());
 	}
 }

@@ -17,8 +17,9 @@ public class TokenUtil {
 
 	private final long tiempoExpiracion = 36000000;
 
-	public String generateToken(String username) {
-		return Jwts.builder().setSubject(username).setIssuedAt(new Date())
+	public String generateToken(TokenPayload payload) {
+		return Jwts.builder().setSubject(payload.getNombreUsuario()).claim("rol", payload.getRol())
+				.claim("idUsuario", payload.getIdUsuario()).setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + tiempoExpiracion)).signWith(clave).compact();
 	}
 
@@ -26,8 +27,16 @@ public class TokenUtil {
 		return Jwts.parserBuilder().setSigningKey(clave).build().parseClaimsJws(token).getBody();
 	}
 
-	public String extractUsername(String token) {
+	public String extraerNombreUsuario(String token) {
 		return leerToken(token).getSubject();
+	}
+
+	public String extraerRol(String token) {
+		return leerToken(token).get("rol", String.class);
+	}
+
+	public Integer extraerId(String token) {
+		return leerToken(token).get("idUsuario", Integer.class);
 	}
 
 	public Boolean validarToken(String token) {
@@ -38,5 +47,4 @@ public class TokenUtil {
 			return false;
 		}
 	}
-
 }

@@ -18,7 +18,7 @@ public class WorkSpace {
 	private String nombre;
 	@Column(length = 500)
 	private String descripcion;
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "id_usuario_asignado")
 	@NotNull(message = "El usuario asignado es obligatorio")
 	private Usuario usuarioAsignado;

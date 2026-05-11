@@ -50,7 +50,7 @@ public class WorkSpaceService {
 		return new WorkSpaceDto(workSpace.getNombre(), workSpace.getDescripcion(), usuario.getNombre_usuario());
 	}
 
-	public List<WorkSpaceDto> getTodosWorkSpaceDeUnUsuario(Integer usuario) {
+	public List<WorkSpaceDto> getWorkSpaceDeUnUsuario(Integer usuario) {
 		List<WorkSpace> listaWorkSpaces = workSpaceRepo.findByUsuarioAsignado_IdUsuario(usuario);
 
 		Usuario usuarioAsignado = usuarioRepo.findById(usuario)

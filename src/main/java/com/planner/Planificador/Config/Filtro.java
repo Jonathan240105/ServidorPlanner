@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.planner.Planificador.Dtos.UsuarioToken;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,10 +32,13 @@ public class Filtro extends OncePerRequestFilter {
 
 			if (tokenUtil.validarToken(token) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-				String nombreUsuario = tokenUtil.extractUsername(token);
+				String nombreUsuario = tokenUtil.extraerNombreUsuario(token);
+				String rol = tokenUtil.extraerRol(token);
+				Integer idUsuario = tokenUtil.extraerId(token);
 
-				UsernamePasswordAuthenticationToken credenciales = new UsernamePasswordAuthenticationToken(
-						nombreUsuario, null, new ArrayList<>());
+				UsuarioToken principal = new UsuarioToken(idUsuario, nombreUsuario, rol);
+				UsernamePasswordAuthenticationToken credenciales = new UsernamePasswordAuthenticationToken(principal,
+						null, new ArrayList<>());
 
 				SecurityContextHolder.getContext().setAuthentication(credenciales);
 			}

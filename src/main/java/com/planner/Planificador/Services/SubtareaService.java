@@ -22,44 +22,59 @@ public class SubtareaService {
 	@Autowired
 	private TareaRepository tareaRepo;
 
-	public List<SubtareaDto> getTodasSubtareasDeUnaTarea(Integer idSubtarea) {
+	public List<SubtareaDto> getTodasSubtareasDeUnaTarea(Integer idTarea, Integer idUsuario) {
+		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
-		List<Subtarea> listaSubtareas = subtareaRepo.findByTarea_IdTarea(idSubtarea);
+		Integer ownerId = tarea.getLista().getWorkspace().getUsuarioAsignado().getId_usuario();
+		if (!ownerId.equals(idUsuario)) {
+			throw new RuntimeException("No tienes permiso sobre los recursos de esta tarea");
+		}
+
+		List<Subtarea> listaSubtareas = subtareaRepo.findByTarea_IdTarea(idTarea);
 
 		return listaSubtareas.stream().map(subtarea -> new SubtareaDto(subtarea.getTitulo(),
 				subtarea.getTarea().getTitulo(), subtarea.getEstado())).collect(Collectors.toList());
 	}
 
-	public void deleteSubtarea(Integer idSubtarea) {
-		if (!subtareaRepo.existsById(idSubtarea)) {
-			throw new RuntimeException("No se han encontrado subtareas");
+	public void deleteSubtarea(Integer idSubtarea, Integer idUsuario) {
+		Subtarea subtarea = subtareaRepo.findById(idSubtarea)
+				.orElseThrow(() -> new RuntimeException("Subtarea no encontrada"));
+
+		Integer ownerId = subtarea.getTarea().getLista().getWorkspace().getUsuarioAsignado().getId_usuario();
+		if (!ownerId.equals(idUsuario)) {
+			throw new RuntimeException("No tienes permiso sobre los recursos de esta tarea");
 		}
-		subtareaRepo.deleteById(idSubtarea);
+
+		subtareaRepo.delete(subtarea);
 	}
 
-	public SubtareaDto addSubtarea(Integer idTarea, String titulo) {
-
+	public SubtareaDto addSubtarea(Integer idTarea, String titulo, Integer idUsuario) {
 		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
-		Subtarea subtarea = new Subtarea(titulo, tarea, false);
+		Integer ownerId = tarea.getLista().getWorkspace().getUsuarioAsignado().getId_usuario();
+		if (!ownerId.equals(idUsuario)) {
+			throw new RuntimeException("No tienes permiso sobre los recursos de esta tarea");
+		}
 
+		Subtarea subtarea = new Subtarea(titulo, tarea, false);
 		subtareaRepo.save(subtarea);
 
 		return new SubtareaDto(subtarea.getTitulo(), tarea.getTitulo(), subtarea.getEstado());
 	}
 
-	public SubtareaDto updateSubtarea(Integer idSubtarea, ActualizarSubtareaSolicitud solicitud) {
-
+	public SubtareaDto updateSubtarea(Integer idSubtarea, ActualizarSubtareaSolicitud solicitud, Integer idUsuario) {
 		Subtarea subtarea = subtareaRepo.findById(idSubtarea)
 				.orElseThrow(() -> new RuntimeException("Subtarea no encontrada"));
 
-		if (solicitud.getTitulo() != null) {
-			subtarea.setTitulo(solicitud.getTitulo());
+		Integer ownerId = subtarea.getTarea().getLista().getWorkspace().getUsuarioAsignado().getId_usuario();
+		if (!ownerId.equals(idUsuario)) {
+			throw new RuntimeException("No tienes permiso sobre los recursos de esta tarea");
 		}
 
-		if (solicitud.getEstado() != null) {
+		if (solicitud.getTitulo() != null)
+			subtarea.setTitulo(solicitud.getTitulo());
+		if (solicitud.getEstado() != null)
 			subtarea.setEstado(solicitud.getEstado());
-		}
 
 		subtareaRepo.save(subtarea);
 
