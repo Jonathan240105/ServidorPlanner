@@ -7,15 +7,15 @@ public final class Endpoints {
 
 	public static final class Usuario {
 		public static final String encabezadoUsuario = "/usuarios";
-		public static final String getUsuarioPorId = "/{id}";
+		public static final String getUsuarioPorId = "/perfil";
 		public static final String iniciarSesion = "/iniciarSesion";
 
 	}
 
 	public static final class Workspace {
 		public static final String encabezadoWorkspace = "/workSpaces";
-		public static final String getWorkspacesUsuario = "/{id}";
-		public static final String eliminarWorkspace = "/delete/{id}";
+		public static final String getWorkspacesUsuario = "/personal";
+		public static final String eliminarWorkspace = "/delete";
 		public static final String nuevoWorkspace = "/nuevo";
 		public static final String buscarWorkspace = "/buscar/{idUsuario}";
 		public static final String actualizarWorkspace = "/actualizar/{id}";

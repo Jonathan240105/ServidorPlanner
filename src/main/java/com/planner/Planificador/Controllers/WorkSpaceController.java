@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.planner.Planificador.Dtos.UsuarioToken;
 import com.planner.Planificador.Dtos.Actualizaciones.ActualizarWorkSpaceSolicitud;
 import com.planner.Planificador.Dtos.Entidades.WorkSpaceDto;
 import com.planner.Planificador.Dtos.Solicitudes.CrearWorkSpaceSolicitud;
@@ -28,14 +30,16 @@ public class WorkSpaceController {
 	private WorkSpaceService workSpaceService;
 
 	@GetMapping(Endpoints.Workspace.getWorkspacesUsuario)
-	public ResponseEntity<List<WorkSpaceDto>> listarTodosWorkSpaceDeUnUsuario(@PathVariable Integer id) {
-		return ResponseEntity.ok(workSpaceService.getTodosWorkSpaceDeUnUsuario(id));
+	public ResponseEntity<List<WorkSpaceDto>> listarWorkSpaceDeUnUsuario(
+			@AuthenticationPrincipal UsuarioToken usuario) {
+
+		return ResponseEntity.ok(workSpaceService.getWorkSpaceDeUnUsuario(usuario.getId()));
 	}
 
 	@DeleteMapping(Endpoints.Workspace.eliminarWorkspace)
-	public ResponseEntity<?> eliminarWorkSpace(@PathVariable Integer id) {
+	public ResponseEntity<?> eliminarWorkSpace(@AuthenticationPrincipal UsuarioToken usuario) {
 
-		workSpaceService.deleteWorkSpace(id);
+		workSpaceService.deleteWorkSpace(usuario.getId());
 		return ResponseEntity.ok("WorkSpace eliminado");
 
 	}
@@ -57,10 +61,10 @@ public class WorkSpaceController {
 	}
 
 	@PutMapping(Endpoints.Workspace.actualizarWorkspace)
-	public ResponseEntity<?> actualizarWorkSpace(@PathVariable Integer id,
+	public ResponseEntity<?> actualizarWorkSpace(@AuthenticationPrincipal UsuarioToken usuario,
 			@RequestBody ActualizarWorkSpaceSolicitud body) {
 
-		WorkSpaceDto wsActualizado = workSpaceService.updateWorkSpace(id, body);
+		WorkSpaceDto wsActualizado = workSpaceService.updateWorkSpace(usuario.getId(), body);
 		return ResponseEntity.ok(wsActualizado);
 
 	}

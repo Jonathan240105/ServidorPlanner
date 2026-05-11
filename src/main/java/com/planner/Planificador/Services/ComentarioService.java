@@ -27,37 +27,49 @@ public class ComentarioService {
 	@Autowired
 	private TareaRepository tareaRepo;
 
-	public List<ComentarioDto> getTodosComentariosDeUnaTarea(Integer idTarea) {
+	public List<ComentarioDto> getTodosComentariosDeUnaTarea(Integer idTarea, Integer idUsuarioToken) {
+		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
+
+		Integer idDuenio = tarea.getLista().getWorkspace().getUsuarioAsignado().getId_usuario();
+		if (!idDuenio.equals(idUsuarioToken)) {
+			throw new RuntimeException("No tienes permiso para acceder a estos comentarios");
+		}
 
 		List<Comentario> listaComentarios = comentariorepo.findByTarea_idTarea(idTarea);
 
-		if (listaComentarios.isEmpty()) {
-			throw new RuntimeException("No se han encontrado comentarios");
-		}
-
-		return listaComentarios.stream().map(comentario -> new ComentarioDto(comentario.getContenido(),comentario.getTarea().getTitulo()))
+		return listaComentarios.stream()
+				.map(comentario -> new ComentarioDto(comentario.getContenido(), comentario.getTarea().getTitulo()))
 				.collect(Collectors.toList());
 	}
 
-	public ComentarioDto addComentario(String contenido, Integer usuarioCreador, Integer tarea) {
+	public ComentarioDto addComentario(String contenido, Integer idUsuarioToken, Integer idTarea) {
+		Usuario usuario = usuariorepo.findById(idUsuarioToken)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-		Usuario usuario = usuariorepo.findById(usuarioCreador)
-				.orElseThrow(() -> new RuntimeException("No se ha encontrado ningun usuario"));
+		Tarea tareaEncontrada = tareaRepo.findById(idTarea)
+				.orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
 
-		Tarea tareaEncontrada = tareaRepo.findById(tarea)
-				.orElseThrow(() -> new RuntimeException("No se ha encontrad ninguna tarea"));
+		Integer idCreador = tareaEncontrada.getLista().getWorkspace().getUsuarioAsignado().getId_usuario();
+		if (!idCreador.equals(idUsuarioToken)) {
+			throw new RuntimeException("No tienes permiso para acceder a estos comentarios");
+		}
 
 		Comentario comentario = new Comentario(contenido, LocalDateTime.now(), tareaEncontrada, usuario);
-		System.out.println(comentario.toString());
 		comentariorepo.save(comentario);
 
-		return new ComentarioDto(comentario.getContenido(),comentario.getTarea().getTitulo());
+		return new ComentarioDto(comentario.getContenido(), comentario.getTarea().getTitulo());
 	}
 
-	public void deleteComentario(Integer id) {
-		if (!comentariorepo.existsById(id)) {
-			throw new RuntimeException("Comentario no encontrado");
+	public void deleteComentario(Integer idComentario, Integer idUsuarioToken) {
+		Comentario comentario = comentariorepo.findById(idComentario)
+				.orElseThrow(() -> new RuntimeException("Comentario no encontrado"));
+
+		Integer idCreador = comentario.getTarea().getLista().getWorkspace().getUsuarioAsignado().getId_usuario();
+		if (!idCreador.equals(idUsuarioToken)) {
+			throw new RuntimeException("No tienes permiso para acceder a estos comentarios");
 		}
-		comentariorepo.deleteById(id);
+
+		comentariorepo.deleteById(idComentario);
 	}
+
 }

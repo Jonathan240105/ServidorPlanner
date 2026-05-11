@@ -22,93 +22,84 @@ public class TareaService {
 
 	@Autowired
 	private TareaRepository tareaRepo;
-
 	@Autowired
 	private UsuarioRepository usuarioRepo;
-
 	@Autowired
 	private ListaRepository listaRepo;
 
-	public List<TareaDto> getTodasTareasDeUnaLista(Integer idLista) {
-		List<Tarea> listaTareas = tareaRepo.findByLista_idLista(idLista);
+	public List<TareaDto> getTodasTareasDeUnaLista(Integer idLista, Integer idUsuario) {
+		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException("Lista no encontrada"));
 
-		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException(""));
-		if (listaTareas.isEmpty()) {
-			throw new RuntimeException("No se han encontrado tareas");
+		if (!lista.getWorkspace().getUsuarioAsignado().getId_usuario().equals(idUsuario)) {
+			throw new RuntimeException("No tienes permiso para ver estas tareas");
 		}
 
+		List<Tarea> listaTareas = tareaRepo.findByLista_idLista(idLista);
 		return listaTareas.stream()
 				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), lista.getNombre_lista(),
 						tarea.getFecha_creacion(), tarea.getAsignadaPor().getNombre_usuario()))
 				.collect(Collectors.toList());
 	}
 
-	public TareaDto addTarea(CrearTareaSolicitud body, Integer usuarioAsignado, Integer idLista,
-			Integer usuarioCreador) {
-		Usuario usuario = usuarioRepo.findById(usuarioAsignado)
-				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-		Usuario creador = usuarioRepo.findById(usuarioCreador)
-				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
+	public TareaDto addTarea(CrearTareaSolicitud body, Integer usuarioAsignadoId, Integer idLista,
+			Integer idUsuarioToken) {
 		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException("Lista no encontrada"));
 
-		int totalTareas = tareaRepo.countByLista_idLista(usuarioAsignado);
+		if (!lista.getWorkspace().getUsuarioAsignado().getId_usuario().equals(idUsuarioToken)) {
+			throw new RuntimeException("No tienes permiso para crear tareas aquí");
+		}
 
+		Usuario asignado = usuarioRepo.findById(usuarioAsignadoId).orElseThrow();
+		Usuario creador = usuarioRepo.findById(idUsuarioToken).orElseThrow();
+
+		int totalTareas = tareaRepo.countByLista_idLista(idLista);
 		Tarea tarea = new Tarea(body.getTitulo(), body.getDescripcion(), totalTareas + 1, body.getFecha_limite(),
-				LocalDateTime.now(), lista, usuario, creador);
+				LocalDateTime.now(), lista, asignado, creador);
 
 		tareaRepo.save(tarea);
 		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), lista.getNombre_lista(), tarea.getFecha_limite(),
 				creador.getNombre_usuario());
 	}
 
-	public void deleteTarea(Integer id) {
-		if (!tareaRepo.existsById(id)) {
-			throw new RuntimeException("Tarea no encontrada");
+	public void deleteTarea(Integer id, Integer idUsuario) {
+		Tarea tarea = tareaRepo.findById(id).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
+
+		if (!tarea.getLista().getWorkspace().getUsuarioAsignado().getId_usuario().equals(idUsuario)) {
+			throw new RuntimeException("No tienes permiso para borrar esta tarea");
 		}
-		tareaRepo.deleteById(id);
+		tareaRepo.delete(tarea);
 	}
 
-	public List<TareaDto> getTareasPorTitulo(Integer idLista, String titulo) {
-		List<Tarea> listaTareas = tareaRepo.findByLista_idListaAndTituloStartingWith(idLista, titulo);
+	public TareaDto moverTareaDeLista(Integer idTarea, Integer idNuevaLista, Integer idUsuario) {
+		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow();
+		Lista nuevaLista = listaRepo.findById(idNuevaLista).orElseThrow();
 
-		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException("Lista no encontrada"));
-		return listaTareas.stream()
-				.map(tarea -> new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), lista.getNombre_lista(),
-						tarea.getFecha_limite(), tarea.getAsignadaPor().getNombre_usuario()))
-				.collect(Collectors.toList());
-	}
+		boolean esCreadorTarea = tarea.getLista().getWorkspace().getUsuarioAsignado().getId_usuario().equals(idUsuario);
+		boolean esCreadorNuevaLista = nuevaLista.getWorkspace().getUsuarioAsignado().getId_usuario().equals(idUsuario);
 
-	public TareaDto moverTareaDeLista(Integer idTarea, Integer idNuevaLista) {
+		if (!esCreadorTarea || !esCreadorNuevaLista) {
+			throw new RuntimeException("No tienes permiso");
+		}
 
-		Tarea tarea = tareaRepo.findById(idTarea)
-				.orElseThrow(() -> new RuntimeException("No se han encontrado tareas"));
-
-		Lista lista = listaRepo.findById(idNuevaLista)
-				.orElseThrow(() -> new RuntimeException("No se han encontrado listas"));
-
-		tarea.setLista(lista);
-
+		tarea.setLista(nuevaLista);
 		tareaRepo.save(tarea);
-
-		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), lista.getNombre_lista(),
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), nuevaLista.getNombre_lista(),
 				tarea.getFecha_creacion(), tarea.getAsignadaPor().getNombre_usuario());
 	}
 
-	public TareaDto updateTarea(Integer idTarea, ActualizarTareaSolicitud solicitud) {
-		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
+	public TareaDto updateTarea(Integer idTarea, ActualizarTareaSolicitud solicitud, Integer idUsuario) {
+		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow();
 
-		if (solicitud.getTitulo() != null) {
+		if (!tarea.getLista().getWorkspace().getUsuarioAsignado().getId_usuario().equals(idUsuario)) {
+			throw new RuntimeException("No tienes permiso");
+		}
+
+		if (solicitud.getTitulo() != null)
 			tarea.setTitulo(solicitud.getTitulo());
-		}
-
-		if (solicitud.getFecha_limite() != null) {
+		if (solicitud.getFecha_limite() != null)
 			tarea.setFecha_limite(solicitud.getFecha_limite());
-		}
 
 		tareaRepo.save(tarea);
-
 		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getLista().getNombre_lista(),
 				tarea.getFecha_limite(), tarea.getAsignadaPor().getNombre_usuario());
 	}
