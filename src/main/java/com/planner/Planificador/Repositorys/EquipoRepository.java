@@ -6,4 +6,5 @@ import com.planner.Planificador.ClasesEntidades.Equipo;
 
 public interface EquipoRepository extends JpaRepository<Equipo, Integer> {
 
+
 }

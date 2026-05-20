@@ -21,9 +21,12 @@ public class ConfiguracionSeguridad {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/usuarios/iniciarSesion", "/usuarios").permitAll()
-						.anyRequest().authenticated())
+		return http
+				.csrf(csrf -> csrf
+						.disable())
+				.authorizeHttpRequests(
+						auth -> auth.requestMatchers("/usuarios/iniciarSesion", "/usuarios", "/v3/api-docs/**",
+								"/swagger-ui/**", "/swagger-ui.html").permitAll().anyRequest().authenticated())
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(filtroUtil, UsernamePasswordAuthenticationFilter.class).build();
 	}
