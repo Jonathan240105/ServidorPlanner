@@ -31,6 +31,9 @@ public class Usuario {
 	private LocalDateTime fecha_creacion;
 	@Column(name = "esAdmin", nullable = false)
 	private boolean esAdmin = false;
+	@ManyToOne
+	@JoinColumn(name = "id_equipo")
+	private Equipo equipo;
 
 	// Constructor
 	public Usuario() {
@@ -38,7 +41,7 @@ public class Usuario {
 	}
 
 	public Usuario(Integer id_usuario, String nombre_usuario, String email, String contra, String foto_usuario,
-			LocalDateTime fecha_creacion) {
+			LocalDateTime fecha_creacion, Equipo equipo) {
 		super();
 		this.idUsuario = id_usuario;
 		this.nombre_usuario = nombre_usuario;
@@ -46,6 +49,7 @@ public class Usuario {
 		this.contra = contra;
 		this.foto_usuario = foto_usuario;
 		this.fecha_creacion = fecha_creacion;
+		this.equipo = equipo;
 	}
 
 	// Getters y Setters
@@ -103,6 +107,14 @@ public class Usuario {
 
 	public void setRol(boolean esAdmin) {
 		this.esAdmin = esAdmin;
+	}
+
+	public Equipo getEquipo() {
+		return equipo;
+	}
+
+	public void setEquipo(Equipo equipo) {
+		this.equipo = equipo;
 	}
 
 	// Tostring

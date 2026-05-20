@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.planner.Planificador.ClasesEntidades.Lista;
 import com.planner.Planificador.ClasesEntidades.Tarea;
 import com.planner.Planificador.ClasesEntidades.Usuario;
+import com.planner.Planificador.Dtos.UsuarioToken;
 import com.planner.Planificador.Dtos.Actualizaciones.ActualizarTareaSolicitud;
 import com.planner.Planificador.Dtos.Entidades.TareaDto;
+import com.planner.Planificador.Dtos.Entidades.UsuarioEquipoDto;
 import com.planner.Planificador.Dtos.Solicitudes.CrearTareaSolicitud;
 import com.planner.Planificador.Repositorys.ListaRepository;
 import com.planner.Planificador.Repositorys.TareaRepository;
@@ -42,21 +44,31 @@ public class TareaService {
 	}
 
 	public TareaDto addTarea(CrearTareaSolicitud body, Integer usuarioAsignadoId, Integer idLista,
-			Integer idUsuarioToken) {
+			UsuarioToken usuarioToken) {
 		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException("Lista no encontrada"));
 
-		if (!lista.getWorkspace().getUsuarioAsignado().getId_usuario().equals(idUsuarioToken)) {
+		if (!lista.getWorkspace().getUsuarioAsignado().getId_usuario().equals(usuarioToken.getId())) {
 			throw new RuntimeException("No tienes permiso para crear tareas aquí");
 		}
 
-		Usuario asignado = usuarioRepo.findById(usuarioAsignadoId).orElseThrow();
-		Usuario creador = usuarioRepo.findById(idUsuarioToken).orElseThrow();
+		Integer idUsuarioAsignado;
+
+		if (usuarioToken.getRol().equals("admin")) {
+			idUsuarioAsignado = usuarioAsignadoId;
+		} else {
+			idUsuarioAsignado = usuarioToken.getId();
+		}
+
+		Usuario asignado = usuarioRepo.findById(idUsuarioAsignado).orElseThrow();
+		Usuario creador = usuarioRepo.findById(usuarioToken.getId()).orElseThrow();
 
 		int totalTareas = tareaRepo.countByLista_idLista(idLista);
+
 		Tarea tarea = new Tarea(body.getTitulo(), body.getDescripcion(), totalTareas + 1, body.getFecha_limite(),
 				LocalDateTime.now(), lista, asignado, creador);
 
 		tareaRepo.save(tarea);
+
 		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), lista.getNombre_lista(), tarea.getFecha_limite(),
 				creador.getNombre_usuario());
 	}
@@ -102,5 +114,18 @@ public class TareaService {
 		tareaRepo.save(tarea);
 		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getLista().getNombre_lista(),
 				tarea.getFecha_limite(), tarea.getAsignadaPor().getNombre_usuario());
+	}
+
+	public List<UsuarioEquipoDto> getMiembrosDropdownEquipo(Integer idUsuarioToken) {
+
+		Usuario usuarioLogueado = usuarioRepo.findById(idUsuarioToken)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+		if (usuarioLogueado.getEquipo() == null) {
+			return List.of();
+		}
+
+		return usuarioRepo.findByEquipo_IdEquipo(usuarioLogueado.getEquipo().getIdEquipo()).stream()
+				.map(u -> new UsuarioEquipoDto(u.getId_usuario(), u.getNombre_usuario())).collect(Collectors.toList());
 	}
 }

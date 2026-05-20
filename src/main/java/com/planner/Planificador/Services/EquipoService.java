@@ -19,5 +19,6 @@ public class EquipoService {
 		return new EquipoDto(equipo.getNombreEquipo(), equipo.getUsuarioAdmin().getNombre_usuario());
 	}
 	
+	
 
 }

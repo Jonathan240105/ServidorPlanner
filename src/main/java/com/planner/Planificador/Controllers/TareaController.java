@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.planner.Planificador.Dtos.UsuarioToken;
 import com.planner.Planificador.Dtos.Actualizaciones.ActualizarTareaSolicitud;
 import com.planner.Planificador.Dtos.Entidades.TareaDto;
+import com.planner.Planificador.Dtos.Entidades.UsuarioEquipoDto;
 import com.planner.Planificador.Dtos.Solicitudes.CrearTareaSolicitud;
 import com.planner.Planificador.Services.TareaService;
 import com.planner.Planificador.Variables.Endpoints;
@@ -35,22 +36,22 @@ public class TareaController {
 		return ResponseEntity.ok(tareaService.getTodasTareasDeUnaLista(id, usuarioToken.getId()));
 	}
 
-	@DeleteMapping(Endpoints.Tarea.eliminarTarea) // Corregido el endpoint
+	@DeleteMapping(Endpoints.Tarea.eliminarTarea)
 	public ResponseEntity<?> eliminarTarea(@PathVariable Integer id,
 			@AuthenticationPrincipal UsuarioToken usuarioToken) {
 		tareaService.deleteTarea(id, usuarioToken.getId());
 		return ResponseEntity.ok("Tarea eliminada");
 	}
 
-	@PostMapping(Endpoints.Tarea.nuevaLista)
+	@PostMapping(Endpoints.Tarea.nuevaTarea)
 	public ResponseEntity<?> crearTarea(@RequestBody CrearTareaSolicitud body, @RequestParam Integer usuario,
 			@RequestParam Integer lista, @AuthenticationPrincipal UsuarioToken usuarioToken) {
-		// El usuarioCreador ahora lo sacamos directamente del token por seguridad
-		TareaDto tarea = tareaService.addTarea(body, usuario, lista, usuarioToken.getId());
+
+		TareaDto tarea = tareaService.addTarea(body, usuario, lista, usuarioToken);
 		return ResponseEntity.ok(tarea);
 	}
 
-	@PutMapping(Endpoints.Tarea.moverTareaLista) // Cambiado a PutMapping
+	@PutMapping(Endpoints.Tarea.moverTareaLista)
 	public ResponseEntity<?> moverTareaDeLista(@PathVariable Integer idTarea, @PathVariable Integer idNuevaLista,
 			@AuthenticationPrincipal UsuarioToken usuarioToken) {
 		TareaDto tareaActualizada = tareaService.moverTareaDeLista(idTarea, idNuevaLista, usuarioToken.getId());
@@ -62,5 +63,11 @@ public class TareaController {
 			@AuthenticationPrincipal UsuarioToken usuarioToken) {
 		TareaDto tareaEditada = tareaService.updateTarea(id, body, usuarioToken.getId());
 		return ResponseEntity.ok(tareaEditada);
+	}
+
+	@GetMapping(Endpoints.Tarea.listarMiembros)
+	public ResponseEntity<List<UsuarioEquipoDto>> listarMiembros(
+			@AuthenticationPrincipal UsuarioToken usuarioToken) {
+		return ResponseEntity.ok(tareaService.getMiembrosDropdownEquipo(usuarioToken.getId()));
 	}
 }

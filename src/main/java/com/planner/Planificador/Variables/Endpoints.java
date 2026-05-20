@@ -27,16 +27,18 @@ public final class Endpoints {
 		public static final String eliminarLista = "/delete/{id}";
 		public static final String nuevaLista = "/nuevo";
 		public static final String actualizarLista = "/actualizar/{id}";
+		public static final String listadoListasConTareas = "/nombreTareas";
 	}
 
 	public static final class Tarea {
 		public static final String encabezadoTarea = "/tareas";
 		public static final String getTareasLista = "/{id}";
 		public static final String eliminarTarea = "/delete/{id}";
-		public static final String nuevaLista = "/nuevo";
+		public static final String nuevaTarea = "/nuevo";
 		public static final String buscarTareasPorTitulo = "/buscar/{idLista}";
 		public static final String moverTareaLista = "/{idTarea}/mover/{idNuevaLista}";
 		public static final String actualizarTarea = "/actualizar/{id}";
+		public static final String listarMiembros = "/equipo/miembros";
 	}
 
 	public static final class Subtarea {

@@ -12,4 +12,8 @@ public interface ListaRepository extends JpaRepository<Lista, Integer> {
 
 	int countByWorkSpace_IdWorkspace(Integer idWorkSpace);
 
+	List<Lista> findByWorkSpace_UsuarioAsignado_IdUsuario(Integer idUsuario);
+
+	List<Lista> findByWorkSpace_UsuarioAsignado_Equipo_IdEquipo(Integer idEquipo);
+
 }
