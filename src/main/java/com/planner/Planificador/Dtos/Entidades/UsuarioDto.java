@@ -8,7 +8,6 @@ public class UsuarioDto {
 	private String email;
 	private String contra;
 	private String foto;
-	@JsonIgnore
 	private String rol;
 
 	// Constructores

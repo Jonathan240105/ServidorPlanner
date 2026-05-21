@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.planner.Planificador.ClasesEntidades.Subtarea;
 import com.planner.Planificador.ClasesEntidades.Tarea;
+import com.planner.Planificador.Dtos.UsuarioToken;
 import com.planner.Planificador.Dtos.Actualizaciones.ActualizarSubtareaSolicitud;
 import com.planner.Planificador.Dtos.Entidades.SubtareaDto;
 import com.planner.Planificador.Repositorys.SubtareaRepository;
@@ -32,7 +33,7 @@ public class SubtareaService {
 
 		List<Subtarea> listaSubtareas = subtareaRepo.findByTarea_IdTarea(idTarea);
 
-		return listaSubtareas.stream().map(subtarea -> new SubtareaDto(subtarea.getTitulo(),
+		return listaSubtareas.stream().map(subtarea -> new SubtareaDto(subtarea.getIdSubtarea(), subtarea.getTitulo(),
 				subtarea.getTarea().getTitulo(), subtarea.getEstado())).collect(Collectors.toList());
 	}
 
@@ -59,7 +60,7 @@ public class SubtareaService {
 		Subtarea subtarea = new Subtarea(titulo, tarea, false);
 		subtareaRepo.save(subtarea);
 
-		return new SubtareaDto(subtarea.getTitulo(), tarea.getTitulo(), subtarea.getEstado());
+		return new SubtareaDto(subtarea.getIdSubtarea(), subtarea.getTitulo(), tarea.getTitulo(), subtarea.getEstado());
 	}
 
 	public SubtareaDto updateSubtarea(Integer idSubtarea, ActualizarSubtareaSolicitud solicitud, Integer idUsuario) {
@@ -78,6 +79,30 @@ public class SubtareaService {
 
 		subtareaRepo.save(subtarea);
 
-		return new SubtareaDto(subtarea.getTitulo(), subtarea.getTarea().getTitulo(), subtarea.getEstado());
+		return new SubtareaDto(subtarea.getIdSubtarea(), subtarea.getTitulo(), subtarea.getTarea().getTitulo(),
+				subtarea.getEstado());
+		
 	}
+
+	public SubtareaDto cambiarEstadoSubtarea(Integer idSubtarea, UsuarioToken usuarioToken) {
+		Subtarea subtarea = subtareaRepo.findById(idSubtarea)
+				.orElseThrow(() -> new RuntimeException("Subtarea no encontrada"));
+
+		boolean esAdmin = "admin".equals(usuarioToken.getRol());
+
+		if (!esAdmin) {
+			Integer usuarioAsignado = subtarea.getTarea().getLista().getWorkspace().getUsuarioAsignado()
+					.getId_usuario();
+			if (!usuarioAsignado.equals(usuarioToken.getId())) {
+				throw new RuntimeException("No tienes permiso sobre los recursos de esta tarea");
+			}
+		}
+
+		subtarea.setEstado(!subtarea.getEstado());
+		subtareaRepo.save(subtarea);
+
+		return new SubtareaDto(subtarea.getIdSubtarea(), subtarea.getTitulo(), subtarea.getTarea().getTitulo(),
+				subtarea.getEstado());
+	}
+
 }

@@ -47,7 +47,11 @@ public class TareaService {
 			UsuarioToken usuarioToken) {
 		Lista lista = listaRepo.findById(idLista).orElseThrow(() -> new RuntimeException("Lista no encontrada"));
 
-		if (!lista.getWorkspace().getUsuarioAsignado().getId_usuario().equals(usuarioToken.getId())) {
+		boolean esDuenoDelWorkspace = lista.getWorkspace().getUsuarioAsignado().getId_usuario()
+				.equals(usuarioToken.getId());
+		boolean esAdmin = usuarioToken.getRol() != null && usuarioToken.getRol().equalsIgnoreCase("admin");
+
+		if (!esDuenoDelWorkspace && !esAdmin) {
 			throw new RuntimeException("No tienes permiso para crear tareas aquí");
 		}
 
@@ -122,10 +126,19 @@ public class TareaService {
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
 		if (usuarioLogueado.getEquipo() == null) {
+			System.out.println("MAL");
 			return List.of();
 		}
 
 		return usuarioRepo.findByEquipo_IdEquipo(usuarioLogueado.getEquipo().getIdEquipo()).stream()
 				.map(u -> new UsuarioEquipoDto(u.getId_usuario(), u.getNombre_usuario())).collect(Collectors.toList());
+	}
+
+	public TareaDto getTarea(Integer idTarea) {
+
+		Tarea tarea = tareaRepo.findById(idTarea).orElseThrow(() -> new RuntimeException(""));
+
+		return new TareaDto(tarea.getTitulo(), tarea.getDescripcion(), tarea.getLista().getNombre_lista(),
+				tarea.getFecha_limite(), tarea.getAsignadaPor().getNombre_usuario());
 	}
 }

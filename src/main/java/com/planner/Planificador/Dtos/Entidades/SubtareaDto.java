@@ -2,6 +2,7 @@ package com.planner.Planificador.Dtos.Entidades;
 
 public class SubtareaDto {
 
+	private Integer id;
 	private String titulo;
 	private String tarea;
 	private Boolean estado;
@@ -11,8 +12,9 @@ public class SubtareaDto {
 		super();
 	}
 
-	public SubtareaDto(String titulo, String tarea, Boolean estado) {
+	public SubtareaDto(Integer id, String titulo, String tarea, Boolean estado) {
 		super();
+		this.id = id;
 		this.titulo = titulo;
 		this.tarea = tarea;
 		this.estado = estado;
@@ -21,6 +23,14 @@ public class SubtareaDto {
 	// Getters y Setters
 	public String getTitulo() {
 		return titulo;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public void setTitulo(String titulo) {

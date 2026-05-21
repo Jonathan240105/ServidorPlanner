@@ -30,6 +30,11 @@ public class TareaController {
 	@Autowired
 	private TareaService tareaService;
 
+	@GetMapping(Endpoints.Tarea.getTarea)
+	public ResponseEntity<TareaDto> getTareaPorId(@PathVariable Integer id) {
+		return ResponseEntity.ok(tareaService.getTarea(id));
+	}
+
 	@GetMapping(Endpoints.Tarea.getTareasLista)
 	public ResponseEntity<List<TareaDto>> listarTareas(@PathVariable Integer id,
 			@AuthenticationPrincipal UsuarioToken usuarioToken) {
@@ -66,8 +71,7 @@ public class TareaController {
 	}
 
 	@GetMapping(Endpoints.Tarea.listarMiembros)
-	public ResponseEntity<List<UsuarioEquipoDto>> listarMiembros(
-			@AuthenticationPrincipal UsuarioToken usuarioToken) {
+	public ResponseEntity<List<UsuarioEquipoDto>> listarMiembros(@AuthenticationPrincipal UsuarioToken usuarioToken) {
 		return ResponseEntity.ok(tareaService.getMiembrosDropdownEquipo(usuarioToken.getId()));
 	}
 }

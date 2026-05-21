@@ -54,4 +54,13 @@ public class SubtareaController {
 		SubtareaDto subtareaActualizada = subtareaService.updateSubtarea(id, body, usuarioToken.getId());
 		return ResponseEntity.ok(subtareaActualizada);
 	}
+
+	@PutMapping(Endpoints.Subtarea.marcarSubtarea)
+	public ResponseEntity<SubtareaDto> cambiarEstadoSubtarea(@PathVariable Integer id,
+			@AuthenticationPrincipal UsuarioToken usuarioToken) {
+
+		SubtareaDto resultado = subtareaService.cambiarEstadoSubtarea(id, usuarioToken);
+
+		return ResponseEntity.ok(resultado);
+	}
 }

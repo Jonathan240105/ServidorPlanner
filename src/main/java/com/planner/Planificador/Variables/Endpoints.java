@@ -32,6 +32,7 @@ public final class Endpoints {
 
 	public static final class Tarea {
 		public static final String encabezadoTarea = "/tareas";
+		public static final String getTarea = "/get/{id}";
 		public static final String getTareasLista = "/{id}";
 		public static final String eliminarTarea = "/delete/{id}";
 		public static final String nuevaTarea = "/nuevo";
@@ -47,6 +48,7 @@ public final class Endpoints {
 		public static final String eliminarSubtarea = "/delete/{id}";
 		public static final String nuevaSubtarea = "/nuevo";
 		public static final String actualizarSubtarea = "/actualizar/{id}";
+		public static final String marcarSubtarea = "/{id}/estado";
 	}
 
 	public static final class Comentario {
